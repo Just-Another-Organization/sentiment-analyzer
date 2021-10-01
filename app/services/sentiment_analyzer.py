@@ -5,7 +5,7 @@ class SentimentAnalyzer:
     def __init__(self):
         self.test()
 
-    def check_sentiment(self, text):
+    def analyze_sentiment(self, text):
         blob = TextBlob(text)
         return {
             'polarity:': blob.sentiment_assessments.polarity,
@@ -17,4 +17,11 @@ class SentimentAnalyzer:
         text = """
         I had a really horrible day. It was the worst day ever! But every now and then I have a really good day that makes me happy.
         """
-        return self.check_sentiment(text)
+        return self.analyze_sentiment(text)
+
+    def analyze_keywords(self, keywords):
+        result = {}
+        for word in keywords:
+            result[word] = word
+
+        return result
