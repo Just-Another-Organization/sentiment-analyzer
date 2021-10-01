@@ -4,7 +4,9 @@ services:
   app:
     container_name: jasa
     image: jasa:latest
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     restart: unless-stopped
     ports:
       - "${PORT}:80"
