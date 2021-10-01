@@ -1,2 +1,2 @@
-# JATSA
-Just Another Trading Sentiment Analyzer
+# JASA
+Just Another Sentiment Analyzer
