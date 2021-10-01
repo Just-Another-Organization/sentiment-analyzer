@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: jasa
+    image: jasa:latest
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${PORT}:80"
+    volumes:
+      - ./app:/app
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "-X", "GET", "http://localhost:80/healthcheck" ]
+      interval: 300s
+      timeout: 180s
+      retries: 5

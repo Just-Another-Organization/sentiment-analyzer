@@ -4,6 +4,7 @@ from textblob import TextBlob
 # Doc: http://127.0.0.1:8000/redoc
 app = FastAPI()
 
+
 @app.get("/healthcheck")
 def read_root():
     return {"Status": "Alive"}
