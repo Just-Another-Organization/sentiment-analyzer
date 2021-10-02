@@ -1,17 +1,20 @@
-from textblob import TextBlob
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 
 class SentimentAnalyzer:
     def __init__(self):
-        pass
+        # Initialize the VADER sentiment analyzer
+        self.analyzer = SentimentIntensityAnalyzer()
 
     def analyze_sentiment(self, text):
-        blob = TextBlob(text)
-        return {
-            'polarity:': blob.sentiment_assessments.polarity,
-            'subjectivity:': blob.sentiment_assessments.subjectivity,
-            'assessments:': blob.sentiment_assessments.assessments
-        }
+        scores = self.analyzer.polarity_scores(text)
+        result = dict()
+        result['negative'] = scores['neg']
+        result['neutral'] = scores['neu']
+        result['positive'] = scores['pos']
+        result['compound'] = scores['compound']
+
+        return result
 
     def test(self):
         text = """
@@ -22,6 +25,9 @@ class SentimentAnalyzer:
     def analyze_keywords(self, keywords):
         result = {}
         for word in keywords:
-            result[word] = word
+            result[word] = word  # TODO
 
         return result
+
+    def load_model(self):
+        pass
