@@ -3,7 +3,7 @@ from textblob import TextBlob
 
 class SentimentAnalyzer:
     def __init__(self):
-        self.test()
+        pass
 
     def analyze_sentiment(self, text):
         blob = TextBlob(text)

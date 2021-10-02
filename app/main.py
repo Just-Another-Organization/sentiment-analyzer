@@ -1,12 +1,15 @@
 from typing import List
-from fastapi import FastAPI, Query
-from services.sentiment_analyzer import SentimentAnalyzer
-from utils.list_string_flattening_middleware import QueryStringFlatteningMiddleware
-from services.twitter_connector import Twitter
 
 from dotenv import load_dotenv
-load_dotenv()
+from fastapi import FastAPI, Query
 
+from services.sentiment_analyzer import SentimentAnalyzer
+from services.trainer import Trainer
+from services.twitter_connector import Twitter
+from utils.list_string_flattening_middleware import QueryStringFlatteningMiddleware
+from utils.logger import Logger
+
+load_dotenv()
 
 # Doc: http://127.0.0.1:8000/redoc
 app = FastAPI(
@@ -16,10 +19,13 @@ app = FastAPI(
 )
 
 app.add_middleware(QueryStringFlatteningMiddleware)
+logger = Logger('Main')
+logger.info('Starting')
 
 analyzer = SentimentAnalyzer()
-
 twitter = Twitter()
+trainer = Trainer()
+trainer.train()
 
 
 @app.get("/healthcheck")
