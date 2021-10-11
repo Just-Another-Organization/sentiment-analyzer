@@ -1,26 +1,37 @@
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from transformers import AutoModel, AutoTokenizer, pipeline, AutoModelForSequenceClassification
+
+from utils.logger import Logger
 
 
 class SentimentAnalyzer:
     def __init__(self):
-        # Initialize the VADER sentiment analyzer
-        self.analyzer = SentimentIntensityAnalyzer()
+        self.logger = Logger('SentimentAnalyzer')
+        # model_name = "dbmdz/bert-large-cased-finetuned-conll03-english"
+        model_name = "dbmdz/bert-base-cased-finetuned-conll03-english"
+        # model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+        # model = AutoModelForSequenceClassification.from_pretrained(model_name)
+        # tokenizer = AutoTokenizer.from_pretrained(model_name)
+        # self.classifier = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer)
+        self.classifier = pipeline('sentiment-analysis')
+        # self.logger.info(self.model)
+
+        self.test()
 
     def analyze_sentiment(self, text):
-        scores = self.analyzer.polarity_scores(text)
-        result = dict()
-        result['negative'] = scores['neg']
-        result['neutral'] = scores['neu']
-        result['positive'] = scores['pos']
-        result['compound'] = scores['compound']
+        outputs = self.classifier(text)
 
-        return result
+        self.logger.info(outputs)
+
+        return outputs
 
     def test(self):
         text = """
         I had a really horrible day. It was the worst day ever! But every now and then I have a really good day that makes me happy.
         """
-        return self.analyze_sentiment(text)
+        self.logger.info('Testing')
+        output = self.analyze_sentiment(text)
+        self.logger.info(output)
+        return output
 
     def analyze_keywords(self, keywords):
         result = {}
@@ -29,5 +40,5 @@ class SentimentAnalyzer:
 
         return result
 
-    def load_model(self):
-        pass
+
+
