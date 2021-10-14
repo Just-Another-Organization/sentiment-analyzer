@@ -11,17 +11,14 @@ class SentimentAnalyzer:
         # model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
         # model = AutoModelForSequenceClassification.from_pretrained(model_name)
         # tokenizer = AutoTokenizer.from_pretrained(model_name)
-        # self.classifier = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer)
+        #self.classifier = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer)
+        #self.logger.info(self.model)
+
         self.classifier = pipeline('sentiment-analysis')
-        # self.logger.info(self.model)
+        # self.test()
 
-        self.test()
-
-    def analyze_sentiment(self, text):
-        outputs = self.classifier(text)
-
-        self.logger.info(outputs)
-
+    def analyze_sentiment(self, texts):
+        outputs = self.classifier(texts)
         return outputs
 
     def test(self):
@@ -30,7 +27,6 @@ class SentimentAnalyzer:
         """
         self.logger.info('Testing')
         output = self.analyze_sentiment(text)
-        self.logger.info(output)
         return output
 
     def analyze_keywords(self, keywords):

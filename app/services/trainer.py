@@ -1,48 +1,46 @@
-import os.path
-
-import pandas as pd
-
 from services.sentiment_analyzer import SentimentAnalyzer
 from utils.logger import Logger
-
-dirname = os.path.dirname(__file__)
-datasets_folder = os.path.join(dirname, "../datasets/")
-dataset = os.path.join(datasets_folder, "IMDB Dataset.csv")
+from datasets import load_dataset
+import pandas as pd
 
 
 class Trainer:
     def __init__(self):
         self.logger = Logger('Trainer')
         self.analyzer = SentimentAnalyzer()
-        self.test()
 
     def read_dataset(self):
-        return pd.read_csv(dataset)
+        imdb_dataset = load_dataset('imdb', split='train')
+        return pd.DataFrame(imdb_dataset.to_pandas())
 
     def test(self):
-        if os.path.isfile(dataset):
-            df = self.read_dataset()
-            correct = 0
-            incorrect = 0
-            for index, row in df.iterrows():
-                if index % 1000 == 0:
-                    self.logger.info(index)
-                text = row[0]
-                sentiment = row[1]
-                sentiment_analysis = self.analyzer.analyze_sentiment(text)
-                compound = sentiment_analysis['compound']
-                positivity = sentiment_analysis['positive']
-                negativity = sentiment_analysis['negative']
-                if compound > 0 and positivity > negativity:
-                    predicted_sentiment = 'positive'
-                else:
-                    predicted_sentiment = 'negative'
-                if predicted_sentiment == sentiment:
-                    correct += 1
-                else:
-                    incorrect += 1
+        df = self.read_dataset()
+        correct = 0
+        incorrect = 0
 
-            self.logger.info(correct)
-            self.logger.info(incorrect)
-        else:
-            self.logger.info('No datasets available')
+        texts = df['text'].to_list()
+        labels = df['label'].to_list()
+
+        elements = len(df)
+
+        for i in range(elements):
+            text = texts[i]
+            lab = labels[i]
+
+            sentiment_analysis = self.analyzer.analyze_sentiment(text[0:512])
+
+            if lab == 1:
+                sentiment = 'POSITIVE'
+            else:
+                sentiment = 'NEGATIVE'
+            if sentiment == sentiment_analysis[0]['label']:
+                correct += 1
+            else:
+                incorrect += 1
+
+            if i % 100 == 0:
+                self.logger.info(correct)
+                self.logger.info(incorrect)
+
+        self.logger.info(correct)
+        self.logger.info(incorrect)
