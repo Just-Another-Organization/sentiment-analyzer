@@ -27,7 +27,9 @@ class Trainer:
             text = texts[i]
             lab = labels[i]
 
-            sentiment_analysis = self.analyzer.analyze_sentiment(text[0:512])
+            sentiment_analysis = self.analyzer.analyze_sentiment(text)
+
+            print(sentiment_analysis)
 
             if lab == 1:
                 sentiment = 'POSITIVE'
@@ -39,6 +41,7 @@ class Trainer:
                 incorrect += 1
 
             if i % 100 == 0:
+                self.logger.info('Index: ' + str(i))
                 self.logger.info(correct)
                 self.logger.info(incorrect)
 
