@@ -1,3 +1,5 @@
+import torch
+
 from utils.logger import Logger
 from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer
@@ -20,7 +22,6 @@ class SentimentAnalyzer:
     # Preprocess text (username and link placeholders)
     def preprocess(self, text):
         new_text = []
-
         for t in text.split(" "):
             t = '@user' if t.startswith('@') and len(t) > 1 else t
             t = 'http' if t.startswith('http') else t
@@ -29,7 +30,7 @@ class SentimentAnalyzer:
 
     def analyze_sentiment(self, text):
         text = self.preprocess(text)
-        encoded_input = self.tokenizer(text, return_tensors='pt')
+        encoded_input = self.tokenizer(text, return_tensors='pt', max_length=490) # TODO: check this value
         output = self.model(**encoded_input)
         scores = output[0][0].detach().numpy()
         scores = softmax(scores)

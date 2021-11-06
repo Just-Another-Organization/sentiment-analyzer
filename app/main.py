@@ -24,9 +24,9 @@ logger.info('Starting')
 
 analyzer = SentimentAnalyzer()
 twitter = Twitter()
-analyzer.test()
-# trainer = Trainer()
-# trainer.test()
+# analyzer.test()
+trainer = Trainer()
+trainer.test()
 
 @app.get("/healthcheck")
 def healthcheck():

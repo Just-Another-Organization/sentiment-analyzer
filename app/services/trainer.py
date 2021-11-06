@@ -25,22 +25,28 @@ class Trainer:
 
         for i in range(elements):
             text = texts[i]
-            lab = labels[i]
+            label = labels[i]
 
             sentiment_analysis = self.analyzer.analyze_sentiment(text)
 
-            print(sentiment_analysis)
-
-            if lab == 1:
-                sentiment = 'POSITIVE'
+            if label == 1:
+                sentiment = 'positive'
             else:
-                sentiment = 'NEGATIVE'
-            if sentiment == sentiment_analysis[0]['label']:
+                sentiment = 'negative'
+
+            negative_score = sentiment_analysis['negative']
+            positive_score = sentiment_analysis['positive']
+            if negative_score > positive_score:
+                predicted_sentiment = 'negative'
+            else:
+                predicted_sentiment = 'positive'
+
+            if sentiment == predicted_sentiment:
                 correct += 1
             else:
                 incorrect += 1
 
-            if i % 100 == 0:
+            if i % 1000 == 0:
                 self.logger.info('Index: ' + str(i))
                 self.logger.info(correct)
                 self.logger.info(incorrect)
