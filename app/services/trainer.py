@@ -1,7 +1,8 @@
+import pandas as pd
+from datasets import load_dataset
+
 from services.sentiment_analyzer import SentimentAnalyzer
 from utils.logger import Logger
-from datasets import load_dataset
-import pandas as pd
 
 
 class Trainer:
@@ -46,10 +47,10 @@ class Trainer:
             else:
                 incorrect += 1
 
-            if i % 1000 == 0:
+            if i % 100 == 0:
                 self.logger.info('Index: ' + str(i))
                 self.logger.info(correct)
                 self.logger.info(incorrect)
 
-        self.logger.info(correct)
-        self.logger.info(incorrect)
+        self.logger.info('Correct: ' + str(correct))
+        self.logger.info('Incorrect: ' + str(incorrect))

@@ -1,10 +1,9 @@
-import torch
-
-from utils.logger import Logger
+import numpy as np
+from scipy.special import softmax
 from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer
-from scipy.special import softmax
-import numpy as np
+
+from utils.logger import Logger
 
 
 class SentimentAnalyzer:
@@ -30,7 +29,8 @@ class SentimentAnalyzer:
 
     def analyze_sentiment(self, text):
         text = self.preprocess(text)
-        encoded_input = self.tokenizer(text, return_tensors='pt', max_length=490) # TODO: check this value
+        encoded_input = self.tokenizer(text, return_tensors='pt', max_length=512,
+                                       truncation=True)  # TODO: check this value
         output = self.model(**encoded_input)
         scores = output[0][0].detach().numpy()
         scores = softmax(scores)
