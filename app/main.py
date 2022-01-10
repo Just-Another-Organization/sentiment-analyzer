@@ -21,6 +21,7 @@ logger = Logger('Main')
 logger.info('Starting')
 
 core = Core()
+# core.analyze_keywords(['Bitcoin', 'Cryptocurrencies'])
 
 
 @app.get("/healthcheck")
@@ -28,20 +29,20 @@ def healthcheck():
     return {"Status": "Alive"}
 
 
-@app.get("/sentiment-test")
+@app.get("/test")
 def sentiment_test():
     return core.test()
 
 
-@app.get("/sentiment-test-dataset")
+@app.get("/test-dataset")
 def sentiment_test():
     return core.test_dataset()
 
 
 @app.get("/analyze-keywords")
 def analyze_keywords(keywords: List[str] = Query(None)):
-    result = core.analyze_keywords(keywords)
     if keywords is not None:
+        result = core.analyze_keywords(keywords)
         return {'result': result}
     else:
         return {"Error": "no keyword specified"}

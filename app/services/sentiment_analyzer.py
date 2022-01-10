@@ -1,8 +1,8 @@
-import numpy as np
 from scipy.special import softmax
 from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer
 
+import utils.utilities as utilities
 from utils.logger import Logger
 
 
@@ -34,16 +34,7 @@ class SentimentAnalyzer:
         output = self.model(**encoded_input)
         scores = output[0][0].detach().numpy()
         scores = softmax(scores)
-        max_rank = max(scores)
-        sentiment_index = np.where(scores == max_rank)[0]
-
-        sentiment = ''
-        if sentiment_index == 0:
-            sentiment = 'negative'
-        elif sentiment_index == 1:
-            sentiment = 'neutral'
-        elif sentiment_index == 2:
-            sentiment = 'positive'
+        sentiment = utilities.get_sentiment_by_scores(scores.tolist())
 
         return {
             'negative': scores[0],
