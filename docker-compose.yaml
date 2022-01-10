@@ -2,11 +2,11 @@ version: "3.9"
 
 services:
   app:
-    container_name: jasa
-    image: jasa:latest
+    container_name: ja-sa
+    image: ja_sa:latest
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     restart: unless-stopped
     ports:
       - "${PORT}:80"

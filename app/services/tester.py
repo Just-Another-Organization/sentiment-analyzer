@@ -5,16 +5,26 @@ from services.sentiment_analyzer import SentimentAnalyzer
 from utils.logger import Logger
 
 
-class Trainer:
-    def __init__(self):
+class Tester:
+    def __init__(self, analyzer: SentimentAnalyzer):
         self.logger = Logger('Trainer')
-        self.analyzer = SentimentAnalyzer()
+        self.analyzer = analyzer
 
-    def read_dataset(self):
+    @staticmethod
+    def read_dataset():
         imdb_dataset = load_dataset('imdb', split='train')
         return pd.DataFrame(imdb_dataset.to_pandas())
 
     def test(self):
+        self.logger.info('Testing')
+        text = """
+        I had a really horrible day. It was the worst day ever! But every now and then I have a really good day that makes me happy.
+        """
+        scores = self.analyzer.analyze_sentiment(text)
+        self.logger.info(scores)
+        return scores
+
+    def test_dataset(self):
         df = self.read_dataset()
         correct = 0
         incorrect = 0

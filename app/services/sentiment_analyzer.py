@@ -7,19 +7,19 @@ from utils.logger import Logger
 
 
 class SentimentAnalyzer:
+    TASK = 'sentiment'
+    MODEL = 'cardiffnlp/twitter-roberta-base-' + TASK
+
     def __init__(self):
         self.logger = Logger('SentimentAnalyzer')
-
-        TASK = 'sentiment'
-        MODEL = 'cardiffnlp/twitter-roberta-base-' + TASK
-
-        self.tokenizer = AutoTokenizer.from_pretrained(MODEL)
-        self.model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+        self.tokenizer = AutoTokenizer.from_pretrained(self.MODEL)
+        self.model = AutoModelForSequenceClassification.from_pretrained(self.MODEL)
         # Enable to save the model
         # self.model.save_pretrained(MODEL)
 
+    @staticmethod
     # Preprocess text (username and link placeholders)
-    def preprocess(self, text):
+    def preprocess(text):
         new_text = []
         for t in text.split(" "):
             t = '@user' if t.startswith('@') and len(t) > 1 else t
@@ -28,7 +28,7 @@ class SentimentAnalyzer:
         return " ".join(new_text)
 
     def analyze_sentiment(self, text):
-        text = self.preprocess(text)
+        text = SentimentAnalyzer.preprocess(text)
         encoded_input = self.tokenizer(text, return_tensors='pt', max_length=512,
                                        truncation=True)  # TODO: check this value
         output = self.model(**encoded_input)
@@ -51,24 +51,5 @@ class SentimentAnalyzer:
             'positive': scores[2],
             'sentiment': sentiment
         }
-
-    def test(self):
-        text = """
-        I had a really horrible day. It was the worst day ever! But every now and then I have a really good day that makes me happy.
-        """
-        # text = "Good night 😊"
-        self.logger.info('Testing')
-        scores = self.analyze_sentiment(text)
-        self.logger.info(scores)
-
-        return scores
-
-    def analyze_keywords(self, keywords):
-        result = {}
-        for word in keywords:
-            result[word] = word  # TODO
-
-        return result
-
 
 

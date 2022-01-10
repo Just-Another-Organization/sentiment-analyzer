@@ -3,9 +3,7 @@ from typing import List
 from dotenv import load_dotenv
 from fastapi import FastAPI, Query
 
-from services.sentiment_analyzer import SentimentAnalyzer
-from services.trainer import Trainer
-from services.twitter_connector import Twitter
+from services.core import Core
 from utils.list_string_flattening_middleware import QueryStringFlatteningMiddleware
 from utils.logger import Logger
 
@@ -22,11 +20,8 @@ app.add_middleware(QueryStringFlatteningMiddleware)
 logger = Logger('Main')
 logger.info('Starting')
 
-analyzer = SentimentAnalyzer()
-twitter = Twitter()
-# analyzer.test()
-trainer = Trainer()
-trainer.test()
+core = Core()
+
 
 @app.get("/healthcheck")
 def healthcheck():
@@ -35,13 +30,17 @@ def healthcheck():
 
 @app.get("/sentiment-test")
 def sentiment_test():
-    return analyzer.test()
+    return core.test()
+
+
+@app.get("/sentiment-test-dataset")
+def sentiment_test():
+    return core.test_dataset()
 
 
 @app.get("/analyze-keywords")
 def analyze_keywords(keywords: List[str] = Query(None)):
-
-    result = analyzer.analyze_keywords(keywords)
+    result = core.analyze_keywords(keywords)
     if keywords is not None:
         return {'result': result}
     else:
