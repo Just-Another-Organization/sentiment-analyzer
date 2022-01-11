@@ -18,7 +18,7 @@ class Twitter:
         query = keyword + ' -is:retweet lang:en'
         tweets = self.client.search_recent_tweets(
             query=query,
-            tweet_fields=['text', 'id', 'organic_metrics'],
+            tweet_fields=['text', 'id'],
             max_results=limit,
             start_time=start_time,
             end_time=end_time)

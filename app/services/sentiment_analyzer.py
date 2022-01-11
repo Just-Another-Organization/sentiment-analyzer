@@ -30,7 +30,7 @@ class SentimentAnalyzer:
     def analyze_sentiment(self, text):
         text = SentimentAnalyzer.preprocess(text)
         encoded_input = self.tokenizer(text, return_tensors='pt', max_length=512,
-                                       truncation=True)  # TODO: check this value
+                                       truncation=True)
         output = self.model(**encoded_input)
         scores = output[0][0].detach().numpy()
         scores = softmax(scores)
