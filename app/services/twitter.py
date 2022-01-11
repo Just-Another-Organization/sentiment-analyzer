@@ -8,12 +8,18 @@ class Twitter:
     def __init__(self):
         self.logger = Logger('Twitter')
         configurations = get_twitter_configurations()
-        auth = tweepy.AppAuthHandler(configurations['API_KEY'], configurations['API_KEY_SECRET'])
-        self.api = tweepy.API(auth)
+        self.client = tweepy.Client(bearer_token=configurations['BEARER_TOKEN'])
 
     def test(self):
-        for tweet in tweepy.Cursor(self.api.search_tweets, q='tweepy').items(10):
-            self.logger.info(tweet.text)
+        return self.search(keyword='Tweepy', limit=2)
 
-    def search(self, keyword, limit=100):
-        return tweepy.Cursor(self.api.search_tweets, q=keyword).items(limit)
+    def search(self, keyword, limit=100, start_time=None, end_time=None):
+        # Keyword match, no ads, no retweet, only english
+        query = keyword + ' -is:retweet lang:en'
+        tweets = self.client.search_recent_tweets(
+            query=query,
+            tweet_fields=['text', 'id', 'organic_metrics'],
+            max_results=limit,
+            start_time=start_time,
+            end_time=end_time)
+        return tweets.data

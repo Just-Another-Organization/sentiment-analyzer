@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, Query
@@ -21,7 +21,6 @@ logger = Logger('Main')
 logger.info('Starting')
 
 core = Core()
-# core.analyze_keywords(['Bitcoin', 'Cryptocurrencies'])
 
 
 @app.get("/healthcheck")
@@ -40,9 +39,11 @@ def sentiment_test():
 
 
 @app.get("/analyze-keywords")
-def analyze_keywords(keywords: List[str] = Query(None)):
+def analyze_keywords(keywords: List[str] = Query(None),
+                     ignore_neutral: Optional[bool] = False,
+                     timeframe: Optional[str] = '1h'):
     if keywords is not None:
-        result = core.analyze_keywords(keywords)
+        result = core.analyze_keywords(keywords, ignore_neutral, timeframe)
         return {'result': result}
     else:
         return {"Error": "no keyword specified"}
