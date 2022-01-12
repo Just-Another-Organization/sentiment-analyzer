@@ -14,8 +14,6 @@ class SentimentAnalyzer:
         self.logger = Logger('SentimentAnalyzer')
         self.tokenizer = AutoTokenizer.from_pretrained(self.MODEL)
         self.model = AutoModelForSequenceClassification.from_pretrained(self.MODEL)
-        # Enable to save the model
-        # self.model.save_pretrained(MODEL)
 
     @staticmethod
     # Preprocess text (username and link placeholders)
