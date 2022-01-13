@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JASA</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="application/javascript" src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+</head>
+<body>
+
+<div id="page-wrapper">
+    <div id="title">
+        <h1>What is the
+            <span id="search-mode" onclick="changeMode()"></span>
+            sentiment of...?</h1>
+    </div>
+    <div id="search-bar">
+        <form onsubmit="event.preventDefault();" role="search">
+            <label for="search">Search for stuff</label>
+            <input id="search" type="search" placeholder="Search..." autofocus required/>
+            <button type="submit" onclick="submitSearch()">Go</button>
+        </form>
+    </div>
+</div>
+</body>
+
+<script type="application/javascript">init()</script>
+</html>
