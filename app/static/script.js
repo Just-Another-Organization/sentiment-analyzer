@@ -289,7 +289,6 @@ function createChip(text) {
             chip.classList.add('chip')
             chip.onclick = () => removeChip(keyword)
             chipsWrapperElement.appendChild(chip)
-            console.log(chip)
         }
     }
 }
