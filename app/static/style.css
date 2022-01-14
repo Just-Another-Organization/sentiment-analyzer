@@ -170,14 +170,13 @@ label {
     position: absolute;
     display: flex;
     flex-direction: column;
-    margin-top: 0.4rem;
+    margin-top: 0;
     padding: 0;
     align-items: center;
     text-align: center;
     width: 10rem;
     height: fit-content;
-    left: calc(50vw + 31rem);
-    background: var(--color-light);
+    left: 76rem;
     background: var(--color-light);
     border-radius: 1.5rem;
     list-style-type: none;
@@ -206,17 +205,6 @@ label {
 
 .active-timeframe {
     background: var(--color-brand);
-}
-
-#splice {
-    position: absolute;
-    left: calc(50vw + 33rem);
-    background: var(--color-brand);
-    width: var(--btn-width);
-    height: 4rem;
-    z-index: 1;
-    margin-top: -1.8rem;
-    border-radius: 100%;
 }
 
 .option-bar {
@@ -341,6 +329,7 @@ label {
 }
 
 .message {
+    text-align: center;
     margin: 1rem;
     width: fit-content;
     border-radius: var(--rad);
@@ -364,17 +353,40 @@ label {
     color: var(--color-light);
     font-size: x-large;
     font-weight: bold;
+    vertical-align: middle;
+}
+
+#messages-wrapper p {
+    text-align: center;
+    justify-content: center;
+    line-height: 2.4rem;
+    margin: 0;
 }
 
 .positive {
-    color: green !important;;
+    color: green !important;
 }
 
 .neutral {
-    color: var(--color-dark-seconday) !important;
+    color: var(--color-light) !important;
 }
 
 .negative {
     color: red !important;
 }
 
+@-webkit-keyframes image-blur {
+    0% {
+        -webkit-filter: blur(0px);
+    }
+    50% {
+        -webkit-filter: blur(5px);
+    }
+    100% {
+        -webkit-filter: blur(0px);
+    }
+}
+
+div {
+    -webkit-animation: image-blur 0.3s;
+}

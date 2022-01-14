@@ -21,7 +21,7 @@ class Twitter:
 
     def search_recent(self, keyword, start_time=None, end_time=None):
         # Keyword match, only english
-        query = keyword + ' -filter:retweets lang:en'
+        query = keyword + ' lang:en'
         raw_tweets = self.api.search_30_day(
             label=self.label_30_day,
             query=query,

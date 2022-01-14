@@ -8,7 +8,7 @@ MODES = [
     POPULAR_MODE
 ]
 
-NO_TIMEFRAME = 'NONE'
+NO_TIMEFRAME = 'None'
 ONE_HOUR = '1h'
 FOUR_HOUR = '4h'
 ONE_DAY = '1d'
@@ -28,7 +28,7 @@ TIMEFRAMES = [
 
 let currentMode = RECENT_MODE
 const MODES_NUMBER = MODES.length;
-let currentTimeframe = ONE_HOUR
+let currentTimeframe = NO_TIMEFRAME
 
 let timeframeListElement
 let timeframePickerElement
@@ -65,11 +65,16 @@ function submitSearch() {
 
     cleanMessages()
     showInfo('Searching')
-
-    fetch(BASE_URL
+    let url = BASE_URL
         + '/analyze-keywords?keywords=' + query
         + '&ignore_neutral=' + ignoreNeutralOption
-        + '&combine=' + combineOption)
+        + '&combine=' + combineOption
+
+    if (currentTimeframe !== NO_TIMEFRAME) {
+        url += '&timeframe=' + currentTimeframe
+    }
+
+    fetch(url)
         .then((response) => response.json())
         .then(data => showResult(data.result));
 }
@@ -85,8 +90,7 @@ function showError(text) {
 function showResult(result) {
     let resultMessage = ''
     for (const key of Object.keys(result)) {
-        let value = result[key].charAt(0).toUpperCase() + result[key].substr(1).toLowerCase();
-        value = value.replaceAll('_', ' ');
+        const value = result[key].charAt(0).toUpperCase() + result[key].substr(1).toLowerCase();
         resultMessage += key + ': ' + value + ' '
     }
     showInfo(resultMessage)
@@ -127,6 +131,11 @@ function highlight() {
                 span.classList.add('positive');
                 span.textContent += word;
                 break;
+            case 'No_data_available':
+                span.classList.add('no-data-available');
+                word = "No data available"
+                span.textContent += word;
+                break;
             default:
                 word = word + ' '
                 break
@@ -141,6 +150,8 @@ function highlight() {
         }
     })
     messagesWrapperElement.classList.add('message')
+    const newLine = paragraph.querySelectorAll('br');
+    paragraph.removeChild(newLine[newLine.length - 1]);
     messagesWrapperElement.appendChild(paragraph)
 }
 
