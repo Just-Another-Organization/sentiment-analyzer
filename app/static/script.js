@@ -8,12 +8,14 @@ MODES = [
     POPULAR_MODE
 ]
 
+NO_TIMEFRAME = 'NONE'
 ONE_HOUR = '1h'
 FOUR_HOUR = '4h'
 ONE_DAY = '1d'
 THREE_DAYS = '3d'
 
 TIMEFRAMES = [
+    NO_TIMEFRAME,
     ONE_HOUR,
     FOUR_HOUR,
     ONE_DAY,
@@ -25,6 +27,7 @@ const MODES_NUMBER = MODES.length;
 let currentTimeframe = ONE_HOUR
 
 let timeframeListElement
+let timeframePickerElement
 let modeElement
 let inputSearchElement
 let timeframeButton
@@ -74,17 +77,24 @@ function animate() {
 
 function setTimeframe(timeframe) {
     currentTimeframe = timeframe;
-    showTimeframes()
+    showTimeframes(false)
 }
 
-function showTimeframes() {
-    if (timeFrameShowed) {
+function showTimeframes(status = null) {
+    if (timeFrameShowed || status === false) {
         timeframeListElement.style.display = 'none';
+        timeframePickerElement.style.display = 'none';
     } else {
-        timeframeListElement.style.display = 'block';
+        timeframeListElement.style.display = 'flex';
+        timeframePickerElement.style.display = 'block';
         timeframeListElement.innerHTML = '';
         for (const timeframe of TIMEFRAMES) {
             const li = document.createElement("li");
+            li.classList.add('timeframe-item')
+
+            if (timeframe === currentTimeframe) {
+                li.classList.add('active-timeframe')
+            }
             li.appendChild(document.createTextNode(timeframe));
             li.onclick = () => setTimeframe(timeframe)
             timeframeListElement.appendChild(li);
@@ -101,10 +111,12 @@ function checkModeOptions() {
         } else {
             inputSearchElement.style.width = '84rem';
             timeframeButton.style.display = 'none';
+            setTimeframe(NO_TIMEFRAME)
         }
     } else {
         inputSearchElement.style.width = '90rem';
         timeframeButton.style.display = 'none';
+        setTimeframe(NO_TIMEFRAME)
     }
 }
 
@@ -116,6 +128,7 @@ function init() {
     modeElement = document.getElementById('search-mode')
     inputSearchElement = document.getElementById('search')
     timeframeListElement = document.getElementById('timeframes-list')
+    timeframePickerElement = document.getElementById('timeframes-picker')
     timeframeButton = document.getElementById('timeframe-btn')
     setMode(currentMode)
 }

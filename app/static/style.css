@@ -24,6 +24,8 @@ html {
     box-sizing: border-box;
     height: 100%;
     font-size: 10px;
+    -webkit-font-smoothing: antialiased;
+    font-family: var(--font-fam);
 }
 
 *, *::before, *::after {
@@ -39,7 +41,6 @@ form {
 
 input, .hiding-btn {
     height: var(--height);
-    font-family: var(--font-fam);
     border: 0;
     color: var(--color-dark);
     font-size: 1.8rem;
@@ -79,6 +80,7 @@ input[type="search"] {
     background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0xMiAwYzYuNjIzIDAgMTIgNS4zNzcgMTIgMTJzLTUuMzc3IDEyLTEyIDEyLTEyLTUuMzc3LTEyLTEyIDUuMzc3LTEyIDEyLTEyem0wIDFjNi4wNzEgMCAxMSA0LjkyOSAxMSAxMXMtNC45MjkgMTEtMTEgMTEtMTEtNC45MjktMTEtMTEgNC45MjktMTEgMTEtMTF6bTAgMTFoNnYxaC03di05aDF2OHoiLz48L3N2Zz4=) center center no-repeat;
     background-origin: content-box;
     background-size: 2.5rem 2.5rem;
+    z-index: 2;
 }
 
 input:not(:placeholder-shown) {
@@ -106,7 +108,6 @@ label {
 
 #title h1 {
     height: var(--height);
-    font-family: var(--font-fam);
     border: 0;
     color: var(--color-light);
     font-size: 5rem;
@@ -158,15 +159,60 @@ label {
     }
 }
 
-ul {
-    position: absolute;
-    background: var(--color-light);
-    width: 8rem;
-    left: calc(50vw + 32rem);
+#timeframes-picker {
+    display: none;
 }
 
-li {
+#timeframes-picker ul {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.4rem;
+    padding: 0;
+    align-items: center;
+    text-align: center;
+    width: 10rem;
+    height: fit-content;
+    max-height: 24rem;
+    left: calc(50vw + 31rem);
+    background: var(--color-light);
+    background: var(--color-light);
+    border-radius: 1.5rem;
     list-style-type: none;
-    width: 8rem;
-    height: 5rem;
+    overflow: hidden;
+    z-index: 2;
+}
+
+#timeframes-picker li {
+    list-style-type: none;
+    width: 100%;
+    height: 4.5rem;
+}
+
+.timeframe-item:hover {
+    opacity: 0.8;
+    background: var(--color-brand);
+}
+
+.timeframe-item {
+    padding-top: 1.4rem;
+    text-align: center;
+    align-items: center;
+    font-size: large;
+    font-weight: bold;
+}
+
+.active-timeframe {
+    background: var(--color-brand);
+}
+
+#splice {
+    position: absolute;
+    left: calc(50vw + 33rem);
+    background: var(--color-brand);
+    width: var(--btn-width);
+    height: 4rem;
+    z-index: 1;
+    margin-top: -1.8rem;
+    border-radius: 100%;
 }
