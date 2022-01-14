@@ -13,13 +13,17 @@ ONE_HOUR = '1h'
 FOUR_HOUR = '4h'
 ONE_DAY = '1d'
 THREE_DAYS = '3d'
+ONE_WEEK = '7d'
+ONE_MONTH = '1M'
 
 TIMEFRAMES = [
     NO_TIMEFRAME,
     ONE_HOUR,
     FOUR_HOUR,
     ONE_DAY,
-    THREE_DAYS
+    THREE_DAYS,
+    ONE_WEEK,
+    ONE_MONTH
 ]
 
 let currentMode = RECENT_MODE
@@ -30,14 +34,50 @@ let timeframeListElement
 let timeframePickerElement
 let modeElement
 let inputSearchElement
+let chipsWrapperElement
 let timeframeButton
+let ignoreNeutralButton
+let combineButton
 let timeFrameShowed = false
+let ignoreNeutralOption = false
+let combineOption = false
+let keywords = []
 
 function submitSearch() {
     const input = inputSearchElement.value
-    fetch(BASE_URL + '/analyze-keywords?keywords=' + input + '&ignore_neutral=true')
+    let query = ''
+
+    for (const keyword of keywords) {
+        query += keyword + ','
+    }
+    query = query.substr(0, query.length - 1)
+
+    if (combineOption) {
+        query += ' ' + input
+    }
+
+    query = query.trim()
+    if (query.length <= 0) {
+        showError('Please insert a valid input')
+        return false
+    }
+
+    showInfo('Searching')
+
+    fetch(BASE_URL
+        + '/analyze-keywords?keywords=' + query
+        + '&ignore_neutral=' + ignoreNeutralOption
+        + '&combine=' + combineOption)
         .then((response) => response.json())
         .then(data => console.log(data));
+}
+
+function showInfo(text) {
+    console.log(text)
+}
+
+function showError(text) {
+    console.warn(text)
 }
 
 function changeMode() {
@@ -55,6 +95,30 @@ function setMode(modeName) {
     setModeText(modeName)
     checkModeOptions()
     animate()
+}
+
+function setIgnoreNeutralOption(status = null) {
+    if (!status) {
+        status = !ignoreNeutralOption
+    }
+    ignoreNeutralOption = status
+    if (ignoreNeutralOption) {
+        ignoreNeutralButton.classList.add('active-btn')
+    } else {
+        ignoreNeutralButton.classList.remove('active-btn')
+    }
+}
+
+function setCombineOption(status = null) {
+    if (!status) {
+        status = !combineOption
+    }
+    combineOption = status
+    if (combineOption) {
+        combineButton.classList.add('active-btn')
+    } else {
+        combineButton.classList.remove('active-btn')
+    }
 }
 
 function setModeText(text) {
@@ -122,6 +186,37 @@ function checkModeOptions() {
 
 function checkInput() {
     checkModeOptions()
+    checkChips()
+}
+
+function checkChips() {
+    const input = inputSearchElement.value
+    if (input[input.length - 1] === ',') {
+        createChip(input.substr(0, input.length - 1))
+    }
+}
+
+function removeChip(keyword) {
+    const position = keywords.indexOf(keyword)
+    chipsWrapperElement.removeChild(chipsWrapperElement.children[position]);
+    keywords.splice(position, 1)
+}
+
+function createChip(text) {
+    keywords.push(text)
+    inputSearchElement.value = ''
+    chipsWrapperElement.innerHTML = ''
+    if (keywords.length > 0) {
+        chipsWrapperElement.style.display = 'flex'
+        for (const keyword of keywords) {
+            const chip = document.createElement("div");
+            chip.appendChild(document.createTextNode(keyword));
+            chip.classList.add('chip')
+            chip.onclick = () => removeChip(keyword)
+            chipsWrapperElement.appendChild(chip)
+            console.log(chip)
+        }
+    }
 }
 
 function init() {
@@ -130,5 +225,9 @@ function init() {
     timeframeListElement = document.getElementById('timeframes-list')
     timeframePickerElement = document.getElementById('timeframes-picker')
     timeframeButton = document.getElementById('timeframe-btn')
+    ignoreNeutralButton = document.getElementById('ignore-neutral-btn')
+    combineButton = document.getElementById('combine-btn')
+    chipsWrapperElement = document.getElementById('chips-wrapper')
     setMode(currentMode)
+    setIgnoreNeutralOption(true)
 }
