@@ -18,9 +18,12 @@
     <div id="search-bar">
         <form onsubmit="event.preventDefault();" role="search">
             <label for="search">Search for stuff</label>
-            <input id="search" type="search" placeholder="Search..." autofocus required/>
-            <button type="submit" onclick="submitSearch()">Go</button>
+            <input autofocus id="search" oninput="checkInput()" placeholder="Search..." required type="search"/>
+
+            <button class='hiding-btn' onclick="submitSearch()" type="submit">Go</button>
+            <button class='hiding-btn' id="timeframe-btn" onclick="showTimeframes()" type="button"></button>
         </form>
+        <ul id="timeframes-list"></ul>
     </div>
 </div>
 </body>
