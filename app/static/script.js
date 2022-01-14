@@ -243,17 +243,17 @@ function showTimeframes(status = null) {
 }
 
 function checkModeOptions() {
-    if (inputSearchElement.value.length > 0) {
+    if (inputSearchElement.value.length > 0 || keywords.length > 0) {
         if (currentMode === RECENT_MODE) {
-            inputSearchElement.style.width = '78rem';
+            setRecentInputMode()
             timeframeButton.style.display = 'block';
         } else {
-            inputSearchElement.style.width = '84rem';
+            setPopularInputMode()
             timeframeButton.style.display = 'none';
             setTimeframe(NO_TIMEFRAME)
         }
     } else {
-        inputSearchElement.style.width = '90rem';
+        setUnsearchableInputMode()
         timeframeButton.style.display = 'none';
         setTimeframe(NO_TIMEFRAME)
     }
@@ -262,6 +262,18 @@ function checkModeOptions() {
 function checkInput() {
     checkModeOptions()
     checkChips()
+}
+
+function setUnsearchableInputMode() {
+    inputSearchElement.style.width = '90rem'
+}
+
+function setPopularInputMode() {
+    inputSearchElement.style.width = '84rem'
+}
+
+function setRecentInputMode() {
+    inputSearchElement.style.width = '78rem'
 }
 
 function checkChips() {
@@ -275,6 +287,7 @@ function removeChip(keyword) {
     const position = keywords.indexOf(keyword)
     chipsWrapperElement.removeChild(chipsWrapperElement.children[position]);
     keywords.splice(position, 1)
+    checkModeOptions()
 }
 
 function createChip(text) {

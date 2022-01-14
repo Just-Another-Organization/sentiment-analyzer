@@ -16,7 +16,7 @@
             sentiment of...?</h1>
     </div>
     <div id="search-bar">
-        <form novalidate onsubmit="return false;">
+        <form novalidate onsubmit="return false;" type="search">
             <label for="search">Search for stuff
             </label>
             <input autofocus id="search" oninput="checkInput()" placeholder="Enter a keyword followed by comma..."
@@ -29,20 +29,20 @@
         </div>
     </div>
 
-    <div id="chips-wrapper"></div>
-
     <div class="option-bar">
         <div class=" tooltip">
             <button class='option-btn shadow-boxed' id="ignore-neutral-btn" onclick="setIgnoreNeutralOption()"
                     type="button"></button>
-            <span class="tooltip-text shadow-boxed">Ignore neutrals results</span>
+            <span class="tooltip-text tooltip-left shadow-boxed">Ignore neutrals results</span>
         </div>
         <div class="tooltip">
             <button class='option-btn shadow-boxed' id="combine-btn" onclick="setCombineOption()"
                     type="button"></button>
-            <span class="tooltip-text shadow-boxed">Combine keywords in search</span>
+            <span class="tooltip-text tooltip-right shadow-boxed">Combine keywords in search</span>
         </div>
     </div>
+
+    <div id="chips-wrapper"></div>
 
     <div id="messages-wrapper"></div>
 
