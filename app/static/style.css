@@ -4,10 +4,13 @@
     --color-dark: #2f2f2f;
     --color-light: #fff;
     --color-brand: #57bd84;
+    --color-dark-seconday: #3f3f3f;
     --font-fam: 'Lato', sans-serif;
     --height: 5rem;
     --btn-width: 6rem;
     --bez: cubic-bezier(0, 0, 0.43, 1.49);
+    --color-info-message: rgba(63, 63, 63, 0.3);
+    --color-error-message: rgba(244, 67, 54, 0.3);
 }
 
 body {
@@ -223,7 +226,7 @@ label {
 }
 
 .option-btn {
-    opacity: 0.6;
+    opacity: 0.5;
     margin: 1rem;
     padding: 0;
     height: var(--btn-width);
@@ -282,8 +285,8 @@ label {
 
 .shadow-boxed {
     background: var(--color-dark);
-    box-shadow: 0 1px 1px 1px #3f3f3f;
-    -webkit-box-shadow: 0 1px 1px 1px #3f3f3f;
+    box-shadow: 0 1px 1px 1px var(--color-dark-seconday);
+    -webkit-box-shadow: 0 1px 1px 1px var(--color-dark-seconday);
 }
 
 .chip {
@@ -313,7 +316,7 @@ label {
 #chips-wrapper {
     margin-top: 2rem;
     flex-wrap: wrap;
-    max-width: 60vh;
+    max-width: 70vw;
     display: none;
     padding: 0.5rem;
     height: fit-content;
@@ -324,3 +327,54 @@ label {
     align-items: center;
     text-align: center;
 }
+
+#messages-wrapper {
+    background-color: var(--color-dark-seconday);
+    border-radius: var(--rad);
+    width: 70vw;;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 4rem;
+    color: var(--color-light);
+}
+
+.message {
+    margin: 1rem;
+    width: fit-content;
+    border-radius: var(--rad);
+    font-size: x-large;
+    font-weight: bold;
+    padding: 1.4rem 2.4rem 1.4rem 2.4rem;
+    color: var(--color-light);
+    white-space: pre;
+}
+
+.info-message {
+    background-color: var(--color-info-message);
+}
+
+.error-message {
+    background-color: var(--color-error-message);
+}
+
+#messages-wrapper span {
+    position: relative;
+    color: var(--color-light);
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.positive {
+    color: green !important;;
+}
+
+.neutral {
+    color: var(--color-dark-seconday) !important;
+}
+
+.negative {
+    color: red !important;
+}
+

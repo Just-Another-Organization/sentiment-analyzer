@@ -35,6 +35,7 @@ let timeframePickerElement
 let modeElement
 let inputSearchElement
 let chipsWrapperElement
+let messagesWrapperElement
 let timeframeButton
 let ignoreNeutralButton
 let combineButton
@@ -62,6 +63,7 @@ function submitSearch() {
         return false
     }
 
+    cleanMessages()
     showInfo('Searching')
 
     fetch(BASE_URL
@@ -69,15 +71,77 @@ function submitSearch() {
         + '&ignore_neutral=' + ignoreNeutralOption
         + '&combine=' + combineOption)
         .then((response) => response.json())
-        .then(data => console.log(data));
+        .then(data => showResult(data.result));
 }
 
 function showInfo(text) {
-    console.log(text)
+    showMessage(text, 'info-message')
 }
 
 function showError(text) {
-    console.warn(text)
+    showMessage(text, 'error-message')
+}
+
+function showResult(result) {
+    let resultMessage = ''
+    for (const key of Object.keys(result)) {
+        let value = result[key].charAt(0).toUpperCase() + result[key].substr(1).toLowerCase();
+        value = value.replaceAll('_', ' ');
+        resultMessage += key + ': ' + value + ' '
+    }
+    showInfo(resultMessage)
+    highlight()
+}
+
+function showMessage(text, type) {
+    cleanMessages()
+    messagesWrapperElement.style.display = 'flex'
+    const chip = document.createElement("div");
+    chip.appendChild(document.createTextNode(text));
+    chip.classList.add('message')
+    chip.classList.add(type)
+    messagesWrapperElement.appendChild(chip)
+}
+
+function cleanMessages() {
+    messagesWrapperElement.innerHTML = ''
+    messagesWrapperElement.style.display = 'none'
+}
+
+function highlight() {
+    const words = messagesWrapperElement.innerText.split(" ");
+    messagesWrapperElement.innerHTML = '';
+    const paragraph = document.createElement("p");
+    words.forEach((word) => {
+        const span = document.createElement('span');
+        switch (word) {
+            case 'Negative':
+                span.classList.add('negative');
+                span.textContent += word;
+                break;
+            case 'Neutral':
+                span.classList.add('neutral');
+                span.textContent += word;
+                break;
+            case 'Positive':
+                span.classList.add('positive');
+                span.textContent += word;
+                break;
+            default:
+                word = word + ' '
+                break
+        }
+        if (span.textContent.length > 0) {
+            paragraph.appendChild(span)
+            const linebreak = document.createElement("br");
+            paragraph.appendChild(linebreak)
+        } else {
+            const node = document.createTextNode(word);
+            paragraph.appendChild(node)
+        }
+    })
+    messagesWrapperElement.classList.add('message')
+    messagesWrapperElement.appendChild(paragraph)
 }
 
 function changeMode() {
@@ -228,6 +292,7 @@ function init() {
     ignoreNeutralButton = document.getElementById('ignore-neutral-btn')
     combineButton = document.getElementById('combine-btn')
     chipsWrapperElement = document.getElementById('chips-wrapper')
+    messagesWrapperElement = document.getElementById('messages-wrapper')
     setMode(currentMode)
     setIgnoreNeutralOption(true)
 }
