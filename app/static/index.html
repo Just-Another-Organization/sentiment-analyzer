@@ -9,7 +9,49 @@
 </head>
 <body>
 
+
+<div id="help-wrapper">
+    <div class="tooltip-help shadow-boxed" id="help-text">
+
+        <h1>
+            Welcome to <a href="https://github.com/ZappaBoy/JA-Sentiment-Analyzer" id="project-name">Just Another
+            Sentiment Analyzer</a>
+        </h1>
+
+        <p>
+            This is a search engine that can help you to check which is the sentiment about topics.
+        </p>
+
+        <p>
+            You can simply search a topic writing it in the search bar, or you can add tags writing down keywords
+            followed by a comma (example: Tesla, Bitcoin, The Witcher 3,).
+        </p>
+        <p>
+            You can search between "recent" and "popular" news by clicking on the rainbow word at the top of the bar.
+        </p>
+        <p>
+            In the end, you can choose some options by selecting the icons on the bottom of the search bar: the first
+            option allows you to ignore neutral values showing only "Positive" and "Negative" sentiments, the second
+            one combining all keywords selected in a single query.
+        </p>
+
+        <p>
+            Notice that you can use # (hashtag) followed by a word to identify a topic (example: #HODL) and the @ (at)
+            to identify a username to check (example: @elonmusk)
+        </p>
+
+        <small>Created by <a href="https://github.com/ZappaBoy/" id="username">ZappaBoy</a></small>
+        <br>
+        <button class="rounded-button" id="help-close-btn" onclick="showHelp(false)" type="button"></button>
+    </div>
+
+
+</div>
+
 <div id="page-wrapper">
+
+    <button class="rounded-button" id="help-btn" onclick="showHelp(true)" type="button"></button>
+
     <div id="title">
         <h1>What is the
             <span id="search-mode" onclick="changeMode()"></span>
@@ -30,20 +72,20 @@
     </div>
 
     <div class="option-bar">
-        <div class=" tooltip">
-            <button class='option-btn shadow-boxed' id="ignore-neutral-btn" onclick="setIgnoreNeutralOption()"
+        <div class="tooltip">
+            <button class='option-btn rounded-button shadow-boxed' id="ignore-neutral-btn"
+                    onclick="setIgnoreNeutralOption()"
                     type="button"></button>
             <span class="tooltip-text tooltip-left shadow-boxed">Ignore neutrals results</span>
         </div>
         <div class="tooltip">
-            <button class='option-btn shadow-boxed' id="combine-btn" onclick="setCombineOption()"
+            <button class='option-btn rounded-button shadow-boxed' id="combine-btn" onclick="setCombineOption()"
                     type="button"></button>
             <span class="tooltip-text tooltip-right shadow-boxed">Combine keywords in search</span>
         </div>
     </div>
 
     <div id="chips-wrapper"></div>
-
     <div id="messages-wrapper"></div>
 
 </div>

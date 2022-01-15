@@ -36,9 +36,12 @@ let modeElement
 let inputSearchElement
 let chipsWrapperElement
 let messagesWrapperElement
+let helpWrapperElement
 let timeframeButton
 let ignoreNeutralButton
 let combineButton
+let helpButton
+let helpShowed = false
 let timeFrameShowed = false
 let ignoreNeutralOption = false
 let combineOption = false
@@ -170,6 +173,21 @@ function setMode(modeName) {
     setModeText(modeName)
     checkModeOptions()
     animate()
+}
+
+function showHelp(status = null) {
+    if (status) {
+        helpShowed = status
+    } else {
+        helpShowed = false
+    }
+    if (helpShowed) {
+        helpWrapperElement.style.display = 'flex';
+        helpButton.classList.add('active-btn')
+    } else {
+        helpWrapperElement.style.display = 'none';
+        helpButton.classList.remove('active-btn')
+    }
 }
 
 function setIgnoreNeutralOption(status = null) {
@@ -314,8 +332,10 @@ function init() {
     timeframeButton = document.getElementById('timeframe-btn')
     ignoreNeutralButton = document.getElementById('ignore-neutral-btn')
     combineButton = document.getElementById('combine-btn')
+    helpButton = document.getElementById('help-btn')
     chipsWrapperElement = document.getElementById('chips-wrapper')
     messagesWrapperElement = document.getElementById('messages-wrapper')
+    helpWrapperElement = document.getElementById('help-wrapper')
     setMode(currentMode)
     setIgnoreNeutralOption(true)
 }

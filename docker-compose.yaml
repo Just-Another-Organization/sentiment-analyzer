@@ -15,7 +15,7 @@ services:
     volumes:
       - ./app:/app
     healthcheck:
-      test: [ "CMD", "curl", "-f", "-X", "GET", "http://localhost:80/api/healthcheck" ]
+      test: [ "CMD", "curl", "-f", "-X", "GET", "http://localhost:$$PORT/api/healthcheck" ]
       interval: 300s
       timeout: 180s
       retries: 5
