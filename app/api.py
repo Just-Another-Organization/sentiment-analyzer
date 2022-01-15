@@ -16,7 +16,7 @@ def healthcheck():
     return {"Status": "Alive"}
 
 
-@router.get("/test")
+@router.get("/test", include_in_schema=False)
 def sentiment_test():
     return core.test()
 
