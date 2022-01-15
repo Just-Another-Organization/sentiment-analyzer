@@ -1,9 +1,10 @@
-from fastapi import APIRouter
 from typing import List, Optional
+
+from fastapi import APIRouter
 from fastapi import Query
+
 from services.core import Core
 from utils.logger import Logger
-
 
 router = APIRouter()
 core = Core()
@@ -20,9 +21,9 @@ def sentiment_test():
     return core.test()
 
 
-@router.get("/test-dataset")
-def sentiment_test():
-    return core.test_dataset()
+# @router.get("/test-dataset")
+# def sentiment_test():
+#     return core.test_dataset()
 
 
 @router.get("/analyze-keywords")
