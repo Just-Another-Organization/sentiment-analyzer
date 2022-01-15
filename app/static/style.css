@@ -444,10 +444,15 @@ label {
     color: var(--color-light);
     left: 10%;
     width: 80%;
-    height: 60%;
+    height: 70%;
     overflow: auto;
     z-index: 100;
     padding: 2rem;
+}
+
+::-webkit-scrollbar {
+    width: 0; /* Remove scrollbar space */
+    background: transparent; /* Optional: just make scrollbar invisible */
 }
 
 .positive {
