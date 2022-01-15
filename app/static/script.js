@@ -48,16 +48,25 @@ let combineOption = false
 let keywords = []
 
 function submitSearch() {
-    const input = inputSearchElement.value
+    const input = inputSearchElement.value.trim()
     let query = ''
 
-    for (const keyword of keywords) {
-        query += keyword + ','
+    if (keywords.length > 0) {
+        query = keywords[0]
+        for (let i = 1; i < keywords.length; i++) {
+            const keyword = keywords[i]
+            query += ',' + keyword
+        }
     }
-    query = query.substr(0, query.length - 1)
 
-    if (combineOption) {
-        query += ' ' + input
+    if (input.length > 0) {
+        if (combineOption) {
+            query += ' ' + input
+        } else if (keywords.length > 0) {
+            query += ',' + input
+        } else {
+            query += input
+        }
     }
 
     query = query.trim()
@@ -69,7 +78,7 @@ function submitSearch() {
     cleanMessages()
     showInfo('Searching')
     let url = BASE_URL
-        + '/analyze-keywords?keywords=' + query
+        + '/analyze-keywords?keywords=' + encodeURIComponent(query)
         + '&ignore_neutral=' + ignoreNeutralOption
         + '&combine=' + combineOption
 
