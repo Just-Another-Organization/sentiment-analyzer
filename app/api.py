@@ -31,7 +31,7 @@ def healthcheck():
 
 
 @router.get("/analyze-keywords")
-@limiter.limit("1/minute")
+@limiter.limit("30/minute")
 def analyze_keywords(request: Request, response: Response, keywords: List[str] = Query(None),
                      ignore_neutral: Optional[bool] = False,
                      timeframe: Optional[str] = None,
