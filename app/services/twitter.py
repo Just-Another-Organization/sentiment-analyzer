@@ -13,7 +13,12 @@ class Twitter:
         configurations = get_twitter_configurations()
         self.label_30_day = configurations['LABEL_30_DAY']
         auth = tweepy.OAuthHandler(configurations['CONSUMER_KEY'], configurations['CONSUMER_KEY_SECRET'])
-        auth.set_access_token(configurations['ACCESS_TOKEN'], configurations['ACCESS_TOKEN_SECRET'])
+        if configurations['USE_USER_CONTEXT']:
+            self.logger.info('Using user context')
+            auth.set_access_token(configurations['ACCESS_TOKEN'], configurations['ACCESS_TOKEN_SECRET'])
+        else:
+            self.logger.info('Skipping user context')
+
         self.api = tweepy.API(auth)
 
     def test(self):
