@@ -305,8 +305,21 @@ function setRecentInputMode() {
 
 function checkChips() {
     const input = inputSearchElement.value
-    if (input[input.length - 1] === ',') {
-        createChip(input.substr(0, input.length - 1))
+    const chips = input.trim().split(',');
+
+    if (chips[chips.length - 1].length <= 0) {
+        chips.pop()
+    }
+
+    if (input[input.length - 1] !== ',') {
+        inputSearchElement.value = chips[chips.length - 1]
+        chips.pop();
+    } else {
+        inputSearchElement.value = ''
+    }
+
+    for (const chip of chips) {
+        createChip(chip.trim())
     }
 }
 
@@ -319,7 +332,6 @@ function removeChip(keyword) {
 
 function createChip(text) {
     keywords.push(text)
-    inputSearchElement.value = ''
     chipsWrapperElement.innerHTML = ''
     if (keywords.length > 0) {
         chipsWrapperElement.style.display = 'flex'
