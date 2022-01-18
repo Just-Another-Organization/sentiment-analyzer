@@ -311,7 +311,7 @@ function checkChips() {
         chips.pop()
     }
 
-    if (input[input.length - 1] !== ',') {
+    if (input[input.length - 1].length > 0 && input[input.length - 1] !== ',') {
         inputSearchElement.value = chips[chips.length - 1]
         chips.pop();
     } else {
@@ -319,7 +319,9 @@ function checkChips() {
     }
 
     for (const chip of chips) {
-        createChip(chip.trim())
+        if (chip.length > 0) {
+            createChip(chip.trim())
+        }
     }
 }
 
