@@ -298,7 +298,11 @@ function checkModeOptions() {
 }
 
 function checkInput() {
-    if (inputSearchElement.value.trim() === '') {
+    const value = inputSearchElement.value
+    if (value.trim() === '' || value[value.length - 1] === ' ') {
+        if (value[value.length - 1] === ' ') {
+            inputSearchElement.value = value.trim() + ' '
+        }
         return false
     }
     checkModeOptions()
@@ -318,14 +322,15 @@ function setRecentInputMode() {
 }
 
 function checkChips() {
-    const input = inputSearchElement.value
-    const chips = input.trim().split(',');
+    let input = inputSearchElement.value
+    input = input.trim()
+    const chips = input.split(',');
 
     if (chips[chips.length - 1].length <= 0) {
         chips.pop()
     }
 
-    if (input[input.length - 1].length > 0 && input[input.length - 1] !== ',') {
+    if (input && input[input.length - 1].length > 0 && input[input.length - 1] !== ',') {
         inputSearchElement.value = chips[chips.length - 1]
         chips.pop();
     } else {
