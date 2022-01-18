@@ -188,7 +188,7 @@ function showHelp(status = null) {
     if (status) {
         helpShowed = status
     } else {
-        helpShowed = false
+        helpShowed = !helpShowed
     }
     if (helpShowed) {
         helpWrapperElement.style.display = 'flex';
