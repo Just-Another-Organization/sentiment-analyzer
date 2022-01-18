@@ -469,7 +469,7 @@ label {
 }
 
 .negative {
-    color: var(--color-error-message) !important;
+    color: rgba(244, 67, 54) !important;
 }
 
 @-webkit-keyframes image-blur {

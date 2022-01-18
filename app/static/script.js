@@ -87,8 +87,19 @@ function submitSearch() {
     }
 
     fetch(url)
-        .then((response) => response.json())
-        .then(data => showResult(data.result));
+        .then((response) => {
+            if (!response.ok) {
+                if (response.status === 429) {
+                    showError('Request limit reached, try again later.')
+                } else {
+                    showError('Something goes wrong, check your params and try again.')
+                }
+                return false
+            }
+            return response.json()
+        })
+        .then(data => showResult(data.result))
+        .catch()
 }
 
 function showInfo(text) {
@@ -287,6 +298,9 @@ function checkModeOptions() {
 }
 
 function checkInput() {
+    if (inputSearchElement.value.trim() === '') {
+        return false
+    }
     checkModeOptions()
     checkChips()
 }

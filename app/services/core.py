@@ -1,4 +1,4 @@
-import utils.costants as label
+import utils.constants as label
 import utils.utilities as utilities
 from models.Tweet import Tweet
 from services.sentiment_analyzer import SentimentAnalyzer
