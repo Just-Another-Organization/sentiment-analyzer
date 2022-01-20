@@ -19,9 +19,6 @@ class RequestLimiter:
 
     def api_limit_not_reached(self, new_api_requests_number):
         self.check_request_window()
-        print(self.api_requests_number)
-        print(new_api_requests_number)
-        print(self.api_last_check_timestamp)
         if self.api_requests_number + new_api_requests_number > constants.API_REQUESTS_LIMIT:
             return False
         else:
