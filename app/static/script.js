@@ -17,7 +17,6 @@ ONE_WEEK = '7d'
 ONE_MONTH = '1M'
 
 TIMEFRAMES = [
-    NO_TIMEFRAME,
     ONE_HOUR,
     FOUR_HOUR,
     ONE_DAY,
@@ -26,9 +25,9 @@ TIMEFRAMES = [
     ONE_MONTH
 ]
 
-let currentMode = RECENT_MODE
+let currentMode = POPULAR_MODE
 const MODES_NUMBER = MODES.length;
-let currentTimeframe = NO_TIMEFRAME
+let currentTimeframe = ONE_HOUR
 
 let timeframeListElement
 let timeframePickerElement
@@ -285,6 +284,7 @@ function checkModeOptions() {
         if (currentMode === RECENT_MODE) {
             setRecentInputMode()
             timeframeButton.style.display = 'block';
+            setTimeframe(ONE_HOUR)
         } else {
             setPopularInputMode()
             timeframeButton.style.display = 'none';
