@@ -1,0 +1,153 @@
+#+BEGIN_COMMENT
+This is a '.org' mode file written with the 'orgmode' provided by 'emacs'.
+This file is used as support to export documentation in markdown format (README.md) or other formats like latex or HTML.
+To export in markdown remember to use ox-gfm (https://github.com/larstvei/ox-gfm)
+#+END_COMMENT
+
+
+#+TITLE: JA-Sentiment-Analyzer
+#+AUTHOR: [[mailto:f.zappone1@studenti.unimol.it][Federico Zappone]]
+#+DATE: 2022-01-22 Sat
+#+EMAIL: f.zappone1@studenti.unimol.it
+#+SUBTITLE:
+#+DESCRIPTION:
+#+KEYWORDS: just another, sentiment analyzer
+#+TEXT:
+#+LATEX_HEADER: \hypersetup{hidelinks}
+#+OPTIONS: ^:nil
+
+
+* Introduction
+JA-Sentiment-Analyzer (JASA), is a /Just Another/ project which aims to provide a simple service to quickly know the sentiment of a particular topic or several topics related to each other.
+
+** How it works
+JASA is a server that provides REST APIs for its integration written through the Python language. More precisely, with the help of the [[https://fastapi.tiangolo.com/][FastAPI]] framework, JASA allows queries to be made through the API provided by [[https://twitter.com/][Twitter]].
+
+Una volta ottenuti i Tweets relativi alla query effettuata, JASA esprimerà un valore di sentiment come output del processo. Il valore del sentiment è generato sommando il sentiment di tutti i Tweets relativi allo stesso topic in modo proporzionale al numero di retweet, risposte, citazioni e likes. Infine il valore di sentiment per ogni singolo Tweet è assegnato grazie al modello [[https://github.com/cardiffnlp/tweeteval/blob/main/README.md][cardiffnlp/tweeteval]] disponibile anche attraverso [[https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment][Huggingface]].
+
+* User Interface
+JA-Sentiment-Analyzer is present with a ~User Interface~ that allows you to easily perform queries quickly across the API layer.
+
+* Prepare the environment
+First, download the repository.
+#+BEGIN_SRC sh
+git clone https://github.com/ZappaBoy/JA-Sentiment-Analyzer
+#+END_SRC
+
+Next, access the folder and create a ~.env~ file.
+#+BEGIN_SRC sh
+cd JA-Sentiment-Analyzer
+touch .env
+#+END_SRC
+
+Edit the ~.env~ file by inserting the necessary environment variables. You must have Twitter access codes, to obtain these codes consult the [[https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api][Twitter developer documentation]]. An example of environment variables is as follows:
+
+#+BEGIN_SRC sh
+ENVIRONMENT=production # System environment stage
+PORT=3000 # Port on which the service will be active
+USE_USER_CONTEXT=False # Enable or disable the use of the Twitter user context
+USE_APP_CONTEXT=True # Enable or disable the use of the Twitter application context
+LABEL_30_DAY=YOUR_LABEL_30_DAY # The 30 Day Twitter label needed to access recent tweets
+LABEL_FULL_ARCHIVE=YOUR_LABEL_FULL_ARCHIVE # The Full Archive Twitter label needed to access popular tweets
+CONSUMER_KEY=YOUR_CONSUMER_KEY # Twitter Consumer Key
+CONSUMER_KEY_SECRET=YOUR_CONSUMER_KEY_SECRET # Twitter Consumer Key Secret
+BEARER_TOKEN=YOUR_BEARER_TOKEN # Twitter Bearer Token
+ACCESS_TOKEN=YOUR_ACCESS_TOKEN # Twitter Access Token
+ACCESS_TOKEN_SECRET=YOUR_ACCESS_TOKEN_SECRET # Twitter Access Token Secret
+LOG_LEVEL=debug # Fastapi/starlette log level
+ALLOWED_HOSTS=localhost,your.own.domain,your.other.domain # Allowed hosts, you can also set 0.0.0.0 to enable all hosts
+#+END_SRC
+
+Finally, start the whole JA-Sentiment-Analyzer system with the ~docker-compose~ utility.
+#+BEGIN_SRC sh
+docker-compose up --build -d # or "docker compose up --build -d" for newer docker version
+#+END_SRC
+
+Note that the startup process may take a few minutes depending on your connection speed
+* Access to the service
+** Access through User Interface
+Once initialization is complete, you can access the ~User Interface~ at ~http://{{YOUR_DOMAIN}}:{{YOUR_PORT}}/engine~.
+
+** Access through API
+Finally, JASA provides the `/api/analyze-keywords` endpoint to allow the integration of the system with others. The call is of type `GET` and it is possible to define the behaviour of the system through parameters:
+- `keywords` (Required) (String Array) - Defines an array of keywords divided by a comma;
+- `ignore_neutral` (Boolean) - If set to `True` allows to force sentiment to only `POSITIVE` and `NEGATIVE` values ignoring neutral values;
+- `timeframe` (String) - If set it will search for recent Tweets. Possible values are of the type `1m` `4h` `12d` `3w` `1M` and cannot exceed 30 days.
+- `combine` (Boolean) - If set to `True` allows you to combine all `keywords` into a single query. This allows for Twitter-supported query operators, see the official Twitter [[https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query][documentation]] for more information.
+
+*** Analyze the sentiment of one or more topics
+#+BEGIN_SRC sh
+curl -X GET 'YOUR_DOMAIN:YOUR_PORT/api/analyze-keywords?keywords=Bitcoin,Covid,Cryptocurrencies'
+#+END_SRC
+#+BEGIN_SRC javascript
+{
+   "result":{
+      "Bitcoin": "POSITIVE",
+      "Covid": "NEGATIVE",
+      "Cryptocurrencies": "NEUTRAL"
+   }
+}
+#+END_SRC
+
+*** Ignore neutral values
+#+BEGIN_SRC sh
+curl -X GET 'YOUR_DOMAIN:YOUR_PORT/api/analyze-keywords?keywords=Bitcoin,Covid,Cryptocurrencies&ignore_neutral=True'
+#+END_SRC
+#+BEGIN_SRC javascript
+{
+   "result":{
+      "Bitcoin":"POSITIVE",
+      "Covid":"NEGATIVE",
+      "Cryptocurrencies":"POSITIVE" //Positive due to the greater optimism compared to pessimism
+   }
+}
+#+END_SRC
+
+*** Analyze recent Tweets (last hour)
+#+BEGIN_SRC sh
+curl -X GET 'YOUR_DOMAIN:YOUR_PORT/api/analyze-keywords?keywords=Bitcoin,Covid,Cryptocurrencies&timeframe=1h'
+#+END_SRC
+#+BEGIN_SRC javascript
+{
+   "result":{
+      "Bitcoin": "NEGATIVE",
+      "Covid": "NEGATIVE",
+      "Cryptocurrencies": "NEGATIVE"
+   }
+}
+#+END_SRC
+
+*** Combine keywords
+#+BEGIN_SRC sh
+curl -X GET 'YOUR_DOMAIN:YOUR_PORT/api/analyze-keywords?keywords=Bitcoin,Cryptocurrencies&combine=True'
+#+END_SRC
+#+BEGIN_SRC javascript
+{
+   "result":{
+      "Bitcoin Cryptocurrencies": "NEUTRAL" // Analyze Tweets with both 'Bitcoin' and 'Cryptocurrencies' keywords
+   }
+}
+#+END_SRC
+
+*** Use Twitter operators
+#+BEGIN_SRC sh
+curl -X GET 'YOUR_DOMAIN:YOUR_PORT/api/analyze-keywords?keywords=Bitcoin,@elonmusk&combine=True'
+#+END_SRC
+#+BEGIN_SRC javascript
+{
+   "result":{
+      "Bitcoin @elonmusk": "NEUTRAL" // Analyze Tweets with 'Bitcoin' keyword related to '@elonmusk' user
+   }
+}
+#+END_SRC
+
+#+BEGIN_SRC sh
+curl -X GET 'YOUR_DOMAIN:YOUR_PORT/api/analyze-keywords?keywords=Bitcoin,place:new%20york%20city&combine=True'
+#+END_SRC
+#+BEGIN_SRC javascript
+{
+   "result": {
+      "Bitcoin place: new york city": "POSITIVE" // Analyze Tweets with 'Bitcoin' keyword from New York City
+   }
+}
+#+END_SRC
