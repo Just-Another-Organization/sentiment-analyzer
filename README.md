@@ -43,7 +43,7 @@ JA-Sentiment-Analyzer is present with a `User Interface` that allows you to easi
 First, download the repository.
 
 ```sh
-git clone https://github.com/ZappaBoy/JA-Sentiment-Analyzer
+git clone https://github.com/Just-Another-Organization/JA-Sentiment-Analyzer.git
 ```
 
 Next, access the folder and create a `.env` file.
