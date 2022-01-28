@@ -31,7 +31,7 @@ JA-Sentiment-Analyzer is present with a ~User Interface~ that allows you to easi
 * Prepare the environment
 First, download the repository.
 #+BEGIN_SRC sh
-git clone https://github.com/ZappaBoy/JA-Sentiment-Analyzer
+git clone https://github.com/Just-Another-Organization/JA-Sentiment-Analyzer.git
 #+END_SRC
 
 Next, access the folder and create a ~.env~ file.
