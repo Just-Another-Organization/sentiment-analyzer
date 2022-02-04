@@ -45,7 +45,7 @@ class Core:
         for word in keywords:
             if recent_mode:
                 self.logger.info('Searching recent tweets')
-                contents = self.twitter.search_recent(keyword=word, start_time=start_time, end_time=end_time)
+                contents = self.twitter.search_recent_tweets(keyword=word, start_time=start_time, end_time=end_time)
             else:
                 self.logger.info('Searching popular tweets')
                 contents = self.twitter.search_popular_tweets(keyword=word)

@@ -10,22 +10,37 @@ MODES = [
 
 NO_TIMEFRAME = 'None'
 ONE_HOUR = '1h'
-FOUR_HOUR = '4h'
+TWO_HOURS = '2h'
+FOUR_HOURS = '4h'
+SIX_HOURS = '6h'
+FOUR_HOURS = '8h'
+TWELVE_HOURS = '12h'
+EIGHTEEN_HOURS = '18h'
 ONE_DAY = '1d'
+TWO_DAYS = '2d'
 THREE_DAYS = '3d'
-ONE_WEEK = '7d'
-ONE_MONTH = '1M'
+FOUR_DAYS = '4d'
+FIVE_DAYS = '5d'
+SIX_DAYS = '6d'
+DEFAULT_TIMEFRAME = ONE_HOUR
 
 TIMEFRAMES = [
     ONE_HOUR,
-    FOUR_HOUR,
+    TWO_HOURS,
+    FOUR_HOURS,
+    SIX_HOURS,
+    FOUR_HOURS,
+    TWELVE_HOURS,
+    EIGHTEEN_HOURS,
     ONE_DAY,
+    TWO_DAYS,
     THREE_DAYS,
-    ONE_WEEK,
-    ONE_MONTH
+    FOUR_DAYS,
+    FIVE_DAYS,
+    SIX_DAYS,
 ]
 
-let currentMode = POPULAR_MODE
+let currentMode = RECENT_MODE
 const MODES_NUMBER = MODES.length;
 let currentTimeframe = ONE_HOUR
 

@@ -20,19 +20,23 @@ class Twitter:
             self.logger.info('Skipping user context')
 
         self.api = tweepy.API(auth)
+        self.client = tweepy.Client(bearer_token=configurations['BEARER_TOKEN'],
+                                    consumer_key=configurations['CONSUMER_KEY'],
+                                    consumer_secret=configurations['CONSUMER_KEY_SECRET'],
+                                    access_token=configurations['ACCESS_TOKEN'],
+                                    access_token_secret=configurations['ACCESS_TOKEN_SECRET'])
 
     def test(self):
-        return self.search_recent(keyword='Tweepy')
+        return self.search_recent_tweets(keyword='Tweepy')
 
-    def search_recent(self, keyword, start_time=None, end_time=None):
+    def search_recent_tweets(self, keyword, start_time=None, end_time=None):
         # Keyword match, only english
-        query = keyword + ' lang:en'
-        raw_tweets = self.api.search_30_day(
-            label=self.label_30_day,
+        query = keyword + ' -is:retweet lang:en'
+        raw_tweets = self.client.search_recent_tweets(
             query=query,
-            fromDate=start_time.strftime(self.DATE_FORMAT),
-            toDate=end_time.strftime(self.DATE_FORMAT))
-        return Twitter.parse_tweets(raw_tweets)
+            start_time=start_time,
+            end_time=end_time)
+        return Twitter.parse_tweets(raw_tweets.data)
 
     def search_popular_tweets(self, keyword, start_time=None, end_time=None):
         # Keyword match, no retweet, only english
