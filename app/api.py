@@ -22,16 +22,6 @@ def healthcheck():
     return {"Status": "Alive"}
 
 
-# @router.get("/test", include_in_schema=False)
-# def sentiment_test():
-#     return core.test()
-
-
-# @router.get("/test-dataset")
-# def sentiment_test():
-#     return core.test_dataset()
-
-
 @router.get("/analyze-keywords")
 @limiter.limit("30/minute")
 def analyze_keywords(request: Request, response: Response, keywords: List[str] = Query(None),
