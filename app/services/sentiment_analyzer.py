@@ -1,19 +1,21 @@
-from scipy.special import softmax
-from transformers import AutoModelForSequenceClassification
-from transformers import AutoTokenizer
+import os
+
+from transformers import pipeline
 
 import utils.utilities as utilities
 from utils.logger import Logger
 
 
 class SentimentAnalyzer:
-    TASK = 'sentiment'
-    MODEL = 'cardiffnlp/twitter-roberta-base-' + TASK
+    CLASSIFIER_NAME = os.getenv('CLASSIFIER_NAME', 'cardiffnlp/twitter-roberta-base-')
+    CLASSIFIER_TASK = os.getenv('CLASSIFIER_TASK', 'sentiment')
+    CLASSIFIER_TYPE = os.getenv('CLASSIFIER_TYPE', 'sentiment-analysis')
+
+    MODEL = CLASSIFIER_NAME + CLASSIFIER_TASK
 
     def __init__(self):
         self.logger = Logger('SentimentAnalyzer')
-        self.tokenizer = AutoTokenizer.from_pretrained(self.MODEL)
-        self.model = AutoModelForSequenceClassification.from_pretrained(self.MODEL)
+        self.classifier = pipeline(self.CLASSIFIER_TYPE, model=self.MODEL)
 
     @staticmethod
     # Preprocess text (username and link placeholders)
@@ -27,18 +29,6 @@ class SentimentAnalyzer:
 
     def analyze_sentiment(self, text):
         text = SentimentAnalyzer.preprocess(text)
-        encoded_input = self.tokenizer(text, return_tensors='pt', max_length=512,
-                                       truncation=True)
-        output = self.model(**encoded_input)
-        scores = output[0][0].detach().numpy()
-        scores = softmax(scores)
-        sentiment = utilities.get_sentiment_by_scores(scores.tolist())
-
-        return {
-            'negative': scores[0],
-            'neutral': scores[1],
-            'positive': scores[2],
-            'sentiment': sentiment
-        }
-
-
+        scores = self.classifier(text)
+        sentiment = utilities.get_sentiment_by_label(scores[0]['label'])
+        return sentiment

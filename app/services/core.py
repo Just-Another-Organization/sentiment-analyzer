@@ -2,7 +2,6 @@ import utils.constants as label
 import utils.utilities as utilities
 from models.Tweet import Tweet
 from services.sentiment_analyzer import SentimentAnalyzer
-from services.tester import Tester
 from services.twitter import Twitter
 from utils.logger import Logger
 
@@ -15,21 +14,13 @@ class Core:
         self.twitter = Twitter()
 
     def test(self):
-        tester = Tester(self.analyzer)
-        tester.test()
         self.twitter.test()
-        del tester
-
-    def test_dataset(self):
-        tester = Tester(self.analyzer)
-        tester.test_dataset()
-        del tester
 
     def analyze_content_sentiment(self, content: Tweet):
         intensity = 1
         intensity += content.retweet_count + content.reply_count + content.favorite_count + content.quote_count
         text = content.text
-        content_sentiment = self.analyzer.analyze_sentiment(text)['sentiment']
+        content_sentiment = self.analyzer.analyze_sentiment(text)
         return content_sentiment, intensity
 
     def analyze_keywords(self, keywords, ignore_neutral=False, timeframe=None):

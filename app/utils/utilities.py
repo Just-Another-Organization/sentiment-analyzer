@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-import utils.constants as label
+import utils.constants as constants
 
 
 def get_sentiment_by_scores(scores):
@@ -8,11 +8,15 @@ def get_sentiment_by_scores(scores):
     sentiment_index = scores.index(max_rank)
 
     if sentiment_index == 0:
-        return label.NEGATIVE
+        return constants.NEGATIVE
     elif sentiment_index == 1:
-        return label.NEUTRAL
+        return constants.NEUTRAL
     elif sentiment_index == 2:
-        return label.POSITIVE
+        return constants.POSITIVE
+
+
+def get_sentiment_by_label(label):
+    return constants.LABELS[label]
 
 
 def get_interval_by_string(timeframe):
