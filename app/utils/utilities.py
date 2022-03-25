@@ -35,7 +35,9 @@ def get_seconds_by_timeframe(timeframe):
     return int(interval_digit) * time_multiplier
 
 
-def get_interval(timeframe, end_time=datetime.utcnow()):
+def get_interval(timeframe, end_time=None):
+    if end_time is None:
+        end_time = datetime.utcnow()
     interval = get_seconds_by_timeframe(timeframe)
     start_time = end_time - timedelta(seconds=interval)
     return start_time, end_time
