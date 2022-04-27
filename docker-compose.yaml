@@ -14,8 +14,3 @@ services:
       - .env
     volumes:
       - ./app:/app
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "-X", "GET", "http://localhost:$$PORT/api/healthcheck" ]
-      interval: 300s
-      timeout: 180s
-      retries: 5

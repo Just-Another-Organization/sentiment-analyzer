@@ -108,7 +108,7 @@ function submitSearch() {
                 if (response.status === 429) {
                     showError('Request limit reached, try again later.')
                 } else {
-                    showError('Something goes wrong, check your params and try again.')
+                    showError('No data available. Try different topics, time interval or sentiment mode.')
                 }
                 return false
             }
