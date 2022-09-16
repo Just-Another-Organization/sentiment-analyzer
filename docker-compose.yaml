@@ -3,8 +3,8 @@ version: "3.3"
 services:
   app:
     build: .
-    image: ja_sa:latest
-    container_name: ja-sa
+    image: sentiment_analyzer:latest
+    container_name: sentiment-analyzer
     restart: unless-stopped
     env_file:
       - .env
