@@ -501,7 +501,6 @@ div:not(#help, #page-wrapper) {
 }
 
 #logo img {
-    width: 30rem;
-    height: 30rem;
-    filter: invert(70%) sepia(40%) saturate(485%) hue-rotate(94deg) brightness(87%) contrast(88%);
+    height: 24rem;
+    /*filter: invert(70%) sepia(40%) saturate(485%) hue-rotate(94deg) brightness(87%) contrast(88%);*/
 }
