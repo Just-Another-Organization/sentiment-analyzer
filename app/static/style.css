@@ -127,15 +127,6 @@ input[type="search"] {
     z-index: 2;
 }
 
-/*input:not(:placeholder-shown) {*/
-/*    border-radius: var(--rad) 0 0 var(--rad);*/
-/*    width: calc(100% - var(--btn-width) - var(--btn-width));*/
-/*}*/
-
-/*input:not(:placeholder-shown) + .hiding-btn {*/
-/*    display: block;*/
-/*}*/
-
 label {
     position: absolute;
     clip: rect(1px, 1px, 1px, 1px);
@@ -503,4 +494,67 @@ div:not(#help, #page-wrapper) {
 #logo img {
     height: 24rem;
     /*filter: invert(70%) sepia(40%) saturate(485%) hue-rotate(94deg) brightness(87%) contrast(88%);*/
+}
+
+#footer-wrapper {
+    animation: none !important;
+}
+
+footer {
+    font-size: 1.4rem;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    background-color: var(--color-dark);
+    padding: 1rem 0;
+    text-align: center;
+}
+
+.footer .row {
+    width: 100%;
+    margin: 0 0;
+    padding: 0.3% 0;
+    color: var(--color-light);
+}
+
+.footer .row a {
+    text-decoration: none;
+    color: var(--color-light);
+    transition: 0.3s;
+}
+
+.footer .row a:hover {
+    color: var(--color-brand);
+}
+
+.footer .row ul {
+    width: 100%;
+}
+
+.footer .row ul li {
+    display: inline-block;
+    margin: 0 1rem;
+}
+
+.footer .row a i {
+    /*font-size: 1.8rem;*/
+    margin: 0 1%;
+}
+
+@media (max-width: 720px) {
+    .footer {
+        text-align: left;
+        padding: 5%;
+    }
+
+    .footer .row ul li {
+        display: block;
+        margin: 1rem 0;
+        text-align: left;
+    }
+
+    .footer .row a i {
+        margin: 0 3%;
+    }
 }
