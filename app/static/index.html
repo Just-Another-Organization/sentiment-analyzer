@@ -40,74 +40,42 @@
     <meta content="/ms-icon-144x144.png" name="msapplication-TileImage">
     <meta content="#ffffff" name="theme-color">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="style.css" rel="stylesheet">
     <script async src="//clickio.mgr.consensu.org/t/consent_228512.js" type="text/javascript"></script>
-    <script type="application/javascript" src="script.js"></script>
+    <script src="script.js" type="application/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
     <script async crossorigin="anonymous"
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8259383160597278"></script>
 </head>
 <body>
-
 <div id="help-wrapper">
-    <div class="tooltip-help shadow-boxed" id="help-text">
-
-        <h1>
-            Welcome to <a href="https://github.com/ZappaBoy/JA-Sentiment-Analyzer" id="project-name">Just Another
-            Sentiment Analyzer</a>
-        </h1>
-
-        <p>
-            This is a search engine that can help you to check which is the sentiment about topics.
-        </p>
-
-        <p>
-            You can simply search a topic writing it in the search bar, or you can add tags writing down keywords
-            followed by a comma (example: Tesla, Bitcoin, The Witcher 3).
-        </p>
-        <p>
-            You can search between "recent" and "popular" news by clicking on the rainbow word at the top of the bar.
-        </p>
-        <p>
-            In the end, you can choose some options by selecting the icons on the bottom of the search bar: the first
-            option allows you to ignore neutral values showing only "Positive" and "Negative" sentiments, the second
-            one combining all keywords selected in a single query.
-        </p>
-
-        <p>
-            Notice that you can use # (hashtag) followed by a word to include a tag (example: #HODL) or the @ (at)
-            to include a username (example: @elonmusk)
-        </p>
-
-        <small>Created by <a href="https://github.com/ZappaBoy/" id="username">ZappaBoy</a></small>
-        <br>
+    <div class="tooltip-help shadow-boxed" id="help-text"><h1> Welcome to <a
+            href="https://github.com/ZappaBoy/JA-Sentiment-Analyzer" id="project-name">Just Another Sentiment
+        Analyzer</a></h1>
+        <p> This is a search engine that can help you to check which is the sentiment about topics. </p>
+        <p> You can simply search a topic writing it in the search bar, or you can add tags writing down keywords
+            followed by a comma (example: Tesla, Bitcoin, The Witcher 3). </p>
+        <p> You can search between "recent" and "popular" news by clicking on the rainbow word at the top of the
+            bar. </p>
+        <p> In the end, you can choose some options by selecting the icons on the bottom of the search bar: the first
+            option allows you to ignore neutral values showing only "Positive" and "Negative" sentiments, the second one
+            combining all keywords selected in a single query. </p>
+        <p> Notice that you can use # (hashtag) followed by a word to include a tag (example: #HODL) or the @ (at) to
+            include a username (example: @elonmusk) </p><small>Created by <a href="https://github.com/ZappaBoy/"
+                                                                             id="username">ZappaBoy</a></small> <br>
         <button class="rounded-button" id="help-close-btn" onclick="showHelp(false)" type="button"></button>
     </div>
-
-
 </div>
-
 <div id="page-wrapper">
-
-    <div id="logo">
-        <img alt="JA-Logo" src="logo.png">
-    </div>
-
+    <div id="logo"><img alt="JA-Logo" src="logo.png"></div>
     <div id="help">
         <button class="rounded-button" id="help-btn" onclick="showHelp()" type="button"></button>
     </div>
-
-    <div id="title">
-        <h1>What is the
-            <span id="search-mode" onclick="changeMode()"></span>
-            sentiment of...?</h1>
-    </div>
+    <div id="title"><h1>What is the <span id="search-mode" onclick="changeMode()"></span> sentiment of...?</h1></div>
     <div id="search-bar">
-        <form novalidate onsubmit="return false;" type="search">
-            <label for="search">Search for stuff
-            </label>
-            <input autofocus id="search" oninput="checkInput()" placeholder="Enter a keyword followed by comma..."
-                   required type="search"/>
+        <form novalidate onsubmit="return false;" type="search"><label for="search">Search for stuff </label> <input
+                autofocus id="search" oninput="checkInput()" placeholder="Enter a keyword followed by comma..." required
+                type="search"/>
             <button class='hiding-btn' onclick="submitSearch()" type="submit">Go</button>
             <button class='hiding-btn' id="timeframe-btn" onclick="showTimeframes()" type="button"></button>
         </form>
@@ -115,62 +83,43 @@
             <ul id="timeframes-list"></ul>
         </div>
     </div>
-
     <div class="option-bar">
         <div class="tooltip">
             <button class='option-btn rounded-button shadow-boxed' id="ignore-neutral-btn"
-                    onclick="setIgnoreNeutralOption()"
-                    type="button"></button>
-            <span class="tooltip-text tooltip-left shadow-boxed">Ignore neutrals results</span>
-        </div>
+                    onclick="setIgnoreNeutralOption()" type="button"></button>
+            <span class="tooltip-text tooltip-left shadow-boxed">Ignore neutrals results</span></div>
         <div class="tooltip">
             <button class='option-btn rounded-button shadow-boxed' id="combine-btn" onclick="setCombineOption()"
                     type="button"></button>
-            <span class="tooltip-text tooltip-right shadow-boxed">Combine keywords in search</span>
-        </div>
+            <span class="tooltip-text tooltip-right shadow-boxed">Combine keywords in search</span></div>
     </div>
-
     <div id="chips-wrapper"></div>
     <div id="messages-wrapper"></div>
-
 </div>
-
 <div id="footer-wrapper">
     <footer>
         <div class="footer">
-            <div class="row">
-                <a href="https://www.linkedin.com/company/just-another-s-r-l/" target="_blank"><i
-                        class="fa fa-linkedin"></i></a>
-                <a href="https://github.com/Just-Another-Organization" target="_blank"><i class="fa fa-github"></i></a>
-            </div>
-
+            <div class="row"><a href="https://www.linkedin.com/company/just-another-s-r-l/" target="_blank"><i
+                    class="fa fa-linkedin"></i></a> <a href="https://github.com/Just-Another-Organization"
+                                                       target="_blank"><i class="fa fa-github"></i></a></div>
             <div class="row">
                 <ul>
                     <li><a href="mailto:administration@justanother.cloud" target="_blank">Contact us</a></li>
                     <li><a href="https://justanotherdomain.dev/" target="_blank">Our Services</a></li>
                     <li><a href="https://www.gdprprivacynotice.com/live.php?token=womKPZyNZkGgSlhGLfwwzCMao5FyV8m1"
-                           target="_blank">Privacy
-                        Policy</a></li>
+                           target="_blank">Privacy Policy</a></li>
                     <li><a href="#"
-                           onclick="if(window.__lxG__consent__!==undefined&&window.__lxG__consent__.getState()!==null){window.__lxG__consent__.showConsent()} else {alert('This function only for users from European Economic Area (EEA)')} return false">
-                        Privacy settings</a>
-                    </li>
+                           onclick="if(window.__lxG__consent__!==undefined&&window.__lxG__consent__.getState()!==null){window.__lxG__consent__.showConsent()}else{alert('This function only for users from European Economic Area (EEA)')}return false">
+                        Privacy settings</a></li>
                 </ul>
             </div>
-
-            <div class="row">
-                &copy Copyright
-                <script type="text/javascript">
-                    document.write(new Date().getFullYear().toString());
-                </script>
-                - Just Another S.R.L.<br>
-                P.IVA: 00999280944
+            <div class="row"> &copy Copyright
+                <script type="text/javascript">document.write(new Date().getFullYear().toString()); </script>
+                - Just Another S.R.L.<br>P.IVA: 00999280944
             </div>
         </div>
     </footer>
-
 </div>
 </body>
-
 <script type="application/javascript">init()</script>
 </html>
