@@ -14,6 +14,10 @@ services:
       - ./app:/app
     networks:
       - trading-framework
-
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "-X", "GET", "http://localhost:80/api/v1/healthcheck" ]
+      interval: 300s
+      timeout: 180s
+      retries: 5
 networks:
   trading-framework:
