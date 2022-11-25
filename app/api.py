@@ -19,7 +19,7 @@ limiter = request_limiter.limiter
 auth = Auth()
 
 
-@router.get("/healthcheck")
+@router.get("/health/check")
 def healthcheck():
     return {"Status": "Alive"}
 

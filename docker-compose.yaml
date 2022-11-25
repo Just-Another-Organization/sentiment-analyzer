@@ -15,7 +15,7 @@ services:
     networks:
       - trading-framework
     healthcheck:
-      test: [ "CMD", "curl", "-f", "-X", "GET", "http://localhost:80/api/v1/healthcheck" ]
+      test: [ "CMD", "curl", "-f", "-X", "GET", "http://localhost:80/api/v1/health/check" ]
       interval: 300s
       timeout: 180s
       retries: 5
