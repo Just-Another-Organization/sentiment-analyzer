@@ -7,6 +7,7 @@ from starlette.requests import Request
 from starlette.responses import Response
 
 from services.core import Core
+from utils.auth import Auth
 from utils.logger import Logger
 from utils.requestlimiter import RequestLimiter
 
@@ -15,6 +16,7 @@ core = Core()
 logger = Logger('Api')
 request_limiter = RequestLimiter.instance()
 limiter = request_limiter.limiter
+auth = Auth()
 
 
 @router.get("/healthcheck")
@@ -30,6 +32,7 @@ def analyze_keywords(request: Request, response: Response,
                      ignore_neutral: Optional[bool] = False,
                      timeframe: Optional[str] = None,
                      combine: Optional[bool] = False):
+    # TODO: enable api_key: APIKey = Depends(auth.api_key_auth)
     if keywords is not None:
         if combine:
             keywords = [' '.join(keywords)]

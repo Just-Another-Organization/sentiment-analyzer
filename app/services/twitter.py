@@ -1,7 +1,7 @@
 import tweepy
 
 from models.Tweet import Tweet
-from utils.configurator import get_twitter_configurations
+from utils.configurator import Configurator
 from utils.logger import Logger
 
 
@@ -10,7 +10,7 @@ class Twitter:
 
     def __init__(self):
         self.logger = Logger('Twitter')
-        configurations = get_twitter_configurations()
+        configurations = Configurator().get_twitter_configurations()
         self.label_30_day = configurations['LABEL_30_DAY']
         auth = tweepy.OAuthHandler(configurations['CONSUMER_KEY'], configurations['CONSUMER_KEY_SECRET'])
         if configurations['USE_USER_CONTEXT']:

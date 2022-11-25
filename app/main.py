@@ -38,7 +38,7 @@ app.mount(STATIC_FILES_ENDPOINT, StaticFiles(directory="static", html=True), nam
 
 app.include_router(
     api.router,
-    prefix="/api",
+    prefix="/api/v1",
     tags=["api"])
 
 
