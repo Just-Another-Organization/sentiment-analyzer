@@ -46,14 +46,14 @@ let currentMode = RECENT_MODE
 const MODES_NUMBER = MODES.length;
 let currentTimeframe = ONE_HOUR
 
-let timeframeListElement
-let timeframePickerElement
+let intervalListElement
+let intervalPickerElement
 let modeElement
 let inputSearchElement
 let chipsWrapperElement
 let messagesWrapperElement
 let helpWrapperElement
-let timeframeButton
+let intervalButton
 let ignoreNeutralButton
 let combineButton
 let helpButton
@@ -99,7 +99,7 @@ function submitSearch() {
         + '&combine=' + combineOption
 
     if (currentTimeframe !== NO_TIMEFRAME) {
-        url += '&timeframe=' + currentTimeframe
+        url += '&interval=' + currentTimeframe
     }
 
     fetch(url)
@@ -268,29 +268,29 @@ function animate() {
         })
 }
 
-function setTimeframe(timeframe) {
-    currentTimeframe = timeframe;
+function setTimeframe(interval) {
+    currentTimeframe = interval;
     showTimeframes(false)
 }
 
 function showTimeframes(status = null) {
     if (timeFrameShowed || status === false) {
-        timeframeListElement.style.display = 'none';
-        timeframePickerElement.style.display = 'none';
+        intervalListElement.style.display = 'none';
+        intervalPickerElement.style.display = 'none';
     } else {
-        timeframeListElement.style.display = 'flex';
-        timeframePickerElement.style.display = 'block';
-        timeframeListElement.innerHTML = '';
-        for (const timeframe of TIMEFRAMES) {
+        intervalListElement.style.display = 'flex';
+        intervalPickerElement.style.display = 'block';
+        intervalListElement.innerHTML = '';
+        for (const interval of TIMEFRAMES) {
             const li = document.createElement("li");
-            li.classList.add('timeframe-item')
+            li.classList.add('interval-item')
 
-            if (timeframe === currentTimeframe) {
-                li.classList.add('active-timeframe')
+            if (interval === currentTimeframe) {
+                li.classList.add('active-interval')
             }
-            li.appendChild(document.createTextNode(timeframe));
-            li.onclick = () => setTimeframe(timeframe)
-            timeframeListElement.appendChild(li);
+            li.appendChild(document.createTextNode(interval));
+            li.onclick = () => setTimeframe(interval)
+            intervalListElement.appendChild(li);
         }
     }
     timeFrameShowed = !timeFrameShowed;
@@ -300,16 +300,16 @@ function checkModeOptions() {
     if (inputSearchElement.value.length > 0 || keywords.length > 0) {
         if (currentMode === RECENT_MODE) {
             setRecentInputMode()
-            timeframeButton.style.display = 'block';
+            intervalButton.style.display = 'block';
             setTimeframe(ONE_HOUR)
         } else {
             setPopularInputMode()
-            timeframeButton.style.display = 'none';
+            intervalButton.style.display = 'none';
             setTimeframe(NO_TIMEFRAME)
         }
     } else {
         setUnsearchableInputMode()
-        timeframeButton.style.display = 'none';
+        intervalButton.style.display = 'none';
         setTimeframe(NO_TIMEFRAME)
     }
 }
@@ -386,9 +386,9 @@ function createChip(text) {
 function init() {
     modeElement = document.getElementById('search-mode')
     inputSearchElement = document.getElementById('search')
-    timeframeListElement = document.getElementById('timeframes-list')
-    timeframePickerElement = document.getElementById('timeframes-picker')
-    timeframeButton = document.getElementById('timeframe-btn')
+    intervalListElement = document.getElementById('intervals-list')
+    intervalPickerElement = document.getElementById('intervals-picker')
+    intervalButton = document.getElementById('interval-btn')
     ignoreNeutralButton = document.getElementById('ignore-neutral-btn')
     combineButton = document.getElementById('combine-btn')
     helpButton = document.getElementById('help-btn')

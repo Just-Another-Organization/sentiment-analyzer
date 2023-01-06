@@ -23,15 +23,15 @@ class Core:
         content_sentiment = self.analyzer.analyze_sentiment(text)
         return content_sentiment, intensity
 
-    def analyze_keywords(self, keywords, ignore_neutral=False, timeframe=None):
+    def analyze_keywords(self, keywords, ignore_neutral=False, interval=None):
         result = {}
         start_time = None
         end_time = None
         recent_mode = False
 
-        if timeframe is not None:
+        if interval is not None:
             recent_mode = True
-            start_time, end_time = utilities.get_interval(timeframe)
+            start_time, end_time = utilities.get_interval(interval)
 
         for word in keywords:
             if recent_mode:

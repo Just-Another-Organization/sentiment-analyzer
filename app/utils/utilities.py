@@ -19,10 +19,10 @@ def get_sentiment_by_label(label):
     return constants.LABELS[label]
 
 
-def get_seconds_by_timeframe(timeframe):
-    # timeframes = ['1M', '1w', '3d', '1d', '12h', '8h', '6h', '4h', '2h', '1h', '30m', '15m', '5m', '3m', '1m']
-    interval_digit = timeframe[0: len(timeframe) - 1]
-    interval_period = timeframe[len(timeframe) - 1: len(timeframe)]
+def get_seconds_by_interval(interval):
+    # intervals = ['1M', '1w', '3d', '1d', '12h', '8h', '6h', '4h', '2h', '1h', '30m', '15m', '5m', '3m', '1m']
+    interval_digit = interval[0: len(interval) - 1]
+    interval_period = interval[len(interval) - 1: len(interval)]
 
     periods = {
         'm': 60,
@@ -35,11 +35,11 @@ def get_seconds_by_timeframe(timeframe):
     return int(interval_digit) * time_multiplier
 
 
-def get_interval(timeframe, end_time=None):
+def get_interval(interval, end_time=None):
     if end_time is None:
         # End time must be a minimum of 10 seconds prior to the request time.
         # Using 60 seconds as threshold instead of 10.
         end_time = datetime.utcnow() - timedelta(seconds=60)
-    interval = get_seconds_by_timeframe(timeframe)
+    interval = get_seconds_by_interval(interval)
     start_time = end_time - timedelta(seconds=interval)
     return start_time, end_time

@@ -30,7 +30,7 @@ def healthcheck():
 def analyze_keywords(request: Request, response: Response,
                      keywords: List[str] = Query(None),
                      ignore_neutral: Optional[bool] = False,
-                     timeframe: Optional[str] = None,
+                     interval: Optional[str] = None,
                      combine: Optional[bool] = False):
     # TODO: enable api_key: APIKey = Depends(auth.api_key_auth)
     if keywords is not None:
@@ -38,7 +38,7 @@ def analyze_keywords(request: Request, response: Response,
             keywords = [' '.join(keywords)]
 
         if request_limiter.api_limit_not_reached(len(keywords)):
-            result = core.analyze_keywords(keywords, ignore_neutral, timeframe)
+            result = core.analyze_keywords(keywords, ignore_neutral, interval)
             response.status_code = status.HTTP_200_OK
             return {'result': result}
         else:

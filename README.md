@@ -100,7 +100,7 @@ Finally, JASA provides the \`/api/analyze-keywords\` endpoint to allow the integ
 
 -   \`keywords\` (Required) (String Array) - Defines an array of keywords divided by a comma;
 -   \`ignore\_neutral\` (Boolean) - If set to \`True\` allows to force sentiment to only \`POSITIVE\` and \`NEGATIVE\` values ignoring neutral values;
--   \`timeframe\` (String) - If set it will search for recent Tweets. Possible values are of the type \`1m\` \`4h\` \`12d\` \`3w\` \`1M\` and cannot exceed 30 days.
+-   \`interval\` (String) - If set it will search for recent Tweets. Possible values are of the type \`1m\` \`4h\` \`12d\` \`3w\` \`1M\` and cannot exceed 30 days.
 -   \`combine\` (Boolean) - If set to \`True\` allows you to combine all \`keywords\` into a single query. This allows for Twitter-supported query operators, see the official Twitter [documentation](https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query) for more information.
 
 
@@ -143,7 +143,7 @@ curl -X GET 'YOUR_DOMAIN:YOUR_PORT/api/analyze-keywords?keywords=Bitcoin,Covid,C
 ### Analyze recent Tweets (last hour)
 
 ```sh
-curl -X GET 'YOUR_DOMAIN:YOUR_PORT/api/analyze-keywords?keywords=Bitcoin,Covid,Cryptocurrencies&timeframe=1h'
+curl -X GET 'YOUR_DOMAIN:YOUR_PORT/api/analyze-keywords?keywords=Bitcoin,Covid,Cryptocurrencies&interval=1h'
 
 {
    "result":{

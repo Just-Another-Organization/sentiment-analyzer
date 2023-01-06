@@ -10,7 +10,7 @@ from utils.singleton import Singleton
 
 @Singleton
 class RequestLimiter:
-    API_REQUEST_WINDOW_INTERVAL = utilities.get_seconds_by_timeframe(constants.API_REQUESTS_WINDOW)
+    API_REQUEST_WINDOW_INTERVAL = utilities.get_seconds_by_interval(constants.API_REQUESTS_WINDOW)
 
     def __init__(self):
         self.limiter = Limiter(key_func=get_remote_address)

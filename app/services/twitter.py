@@ -46,12 +46,12 @@ class Twitter:
             lang='en',
             result_type='popular')
         if start_time is not None and end_time is not None:
-            return Twitter.filter_by_timeframe(raw_tweets, start_time, end_time)
+            return Twitter.filter_by_interval(raw_tweets, start_time, end_time)
         else:
             return Twitter.parse_tweets(raw_tweets)
 
     @staticmethod
-    def filter_by_timeframe(raw_tweets, start_time, end_time):
+    def filter_by_interval(raw_tweets, start_time, end_time):
         tweets = []
         for raw_tweet in raw_tweets:
             if start_time <= raw_tweet.created_at <= end_time:
