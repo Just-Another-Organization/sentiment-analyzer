@@ -34,8 +34,8 @@ class Twitter:
     def test(self):
         return self.search_recent_tweets(keyword='Tweepy')
 
-    def search_recent_tweets(self, keyword: str, start_time: datetime = None, end_time: datetime = None) -> list[
-        TweetModel]:
+    def search_recent_tweets(self, keyword: str, start_time: datetime = None, end_time: datetime = None) \
+            -> list[TweetModel]:
         # Keyword match, only english
         query = keyword + ' -is:retweet lang:en'
         raw_tweets = self.client.search_recent_tweets(
