@@ -1,6 +1,6 @@
 import os
 
-from transformers import pipeline
+from transformers import pipeline, Pipeline
 
 import utils.utilities as utilities
 from utils.logger import Logger
@@ -19,7 +19,7 @@ class SentimentAnalyzer:
 
     @staticmethod
     # Preprocess text (username and link placeholders)
-    def preprocess(text):
+    def preprocess(text: str) -> str:
         new_text = []
         for t in text.split(" "):
             t = '@user' if t.startswith('@') and len(t) > 1 else t
@@ -27,8 +27,8 @@ class SentimentAnalyzer:
             new_text.append(t)
         return " ".join(new_text)
 
-    def analyze_sentiment(self, text):
+    def analyze_sentiment(self, text: str) -> str:
         text = SentimentAnalyzer.preprocess(text)
-        scores = self.classifier(text)
+        scores: Pipeline = self.classifier(text)
         sentiment = utilities.get_sentiment_by_label(scores[0]['label'])
         return sentiment

@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import utils.constants as constants
 
 
-def get_sentiment_by_scores(scores):
+def get_sentiment_by_scores(scores: list[int]) -> str:
     max_rank = max(scores)
     sentiment_index = scores.index(max_rank)
 
@@ -15,11 +15,11 @@ def get_sentiment_by_scores(scores):
         return constants.POSITIVE
 
 
-def get_sentiment_by_label(label):
+def get_sentiment_by_label(label: str) -> str:
     return constants.LABELS[label]
 
 
-def get_seconds_by_interval(interval):
+def get_seconds_by_interval(interval: str) -> int:
     # intervals = ['1M', '1w', '3d', '1d', '12h', '8h', '6h', '4h', '2h', '1h', '30m', '15m', '5m', '3m', '1m']
     interval_digit = interval[0: len(interval) - 1]
     interval_period = interval[len(interval) - 1: len(interval)]
@@ -35,7 +35,7 @@ def get_seconds_by_interval(interval):
     return int(interval_digit) * time_multiplier
 
 
-def get_interval(interval, end_time=None):
+def get_interval(interval: str, end_time: datetime = None) -> tuple[datetime, datetime]:
     if end_time is None:
         # End time must be a minimum of 10 seconds prior to the request time.
         # Using 60 seconds as threshold instead of 10.

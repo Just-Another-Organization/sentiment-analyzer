@@ -1,6 +1,11 @@
-import tweepy
+from datetime import datetime
+from typing import Union
 
-from models.Tweet import Tweet
+import tweepy
+from tweepy import Client
+from tweepy.models import SearchResults
+
+from models.TweetModel import TweetModel
 from utils.configurator import Configurator
 from utils.logger import Logger
 
@@ -20,16 +25,17 @@ class Twitter:
             self.logger.info('Skipping user context')
 
         self.api = tweepy.API(auth)
-        self.client = tweepy.Client(bearer_token=configurations['BEARER_TOKEN'],
-                                    consumer_key=configurations['CONSUMER_KEY'],
-                                    consumer_secret=configurations['CONSUMER_KEY_SECRET'],
-                                    access_token=configurations['ACCESS_TOKEN'],
-                                    access_token_secret=configurations['ACCESS_TOKEN_SECRET'])
+        self.client: Client = tweepy.Client(bearer_token=configurations['BEARER_TOKEN'],
+                                            consumer_key=configurations['CONSUMER_KEY'],
+                                            consumer_secret=configurations['CONSUMER_KEY_SECRET'],
+                                            access_token=configurations['ACCESS_TOKEN'],
+                                            access_token_secret=configurations['ACCESS_TOKEN_SECRET'])
 
     def test(self):
         return self.search_recent_tweets(keyword='Tweepy')
 
-    def search_recent_tweets(self, keyword, start_time=None, end_time=None):
+    def search_recent_tweets(self, keyword: str, start_time: datetime = None, end_time: datetime = None) -> list[
+        TweetModel]:
         # Keyword match, only english
         query = keyword + ' -is:retweet lang:en'
         raw_tweets = self.client.search_recent_tweets(
@@ -38,10 +44,11 @@ class Twitter:
             end_time=end_time)
         return Twitter.parse_tweets(raw_tweets.data)
 
-    def search_popular_tweets(self, keyword, start_time=None, end_time=None):
+    def search_popular_tweets(self, keyword: str, start_time: datetime = None, end_time: datetime = None) \
+            -> list[TweetModel]:
         # Keyword match, no retweet, only english
         query = keyword + ' -is:retweet lang:en'
-        raw_tweets = self.api.search_tweets(
+        raw_tweets: SearchResults = self.api.search_tweets(
             q=query,
             lang='en',
             result_type='popular')
@@ -51,13 +58,13 @@ class Twitter:
             return Twitter.parse_tweets(raw_tweets)
 
     @staticmethod
-    def filter_by_interval(raw_tweets, start_time, end_time):
+    def filter_by_interval(raw_tweets: SearchResults, start_time: datetime, end_time: datetime) -> list[TweetModel]:
         tweets = []
         for raw_tweet in raw_tweets:
             if start_time <= raw_tweet.created_at <= end_time:
-                tweets.append(Tweet(raw_tweet))
+                tweets.append(TweetModel(raw_tweet))
         return tweets
 
     @staticmethod
-    def parse_tweets(raw_tweets):
-        return [Tweet(raw_tweet) for raw_tweet in raw_tweets]
+    def parse_tweets(raw_tweets: Union[SearchResults, dict]) -> list[TweetModel]:
+        return [TweetModel(raw_tweet) for raw_tweet in raw_tweets]

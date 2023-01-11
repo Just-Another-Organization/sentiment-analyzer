@@ -1,5 +1,8 @@
-class Tweet:
-    def __init__(self, raw_tweet):
+from tweepy import Tweet
+
+
+class TweetModel:
+    def __init__(self, raw_tweet: Tweet):
         self.created_at = raw_tweet.created_at
         self.text = raw_tweet.text
         self.id = raw_tweet.id

@@ -1,6 +1,6 @@
 import utils.constants as label
 import utils.utilities as utilities
-from models.Tweet import Tweet
+from models.TweetModel import TweetModel
 from services.sentiment_analyzer import SentimentAnalyzer
 from services.twitter import Twitter
 from utils.logger import Logger
@@ -16,15 +16,16 @@ class Core:
     def test(self):
         self.twitter.test()
 
-    def analyze_content_sentiment(self, content: Tweet):
+    def analyze_content_sentiment(self, content: TweetModel) -> tuple[str, int]:
         intensity = 1
         intensity += content.retweet_count + content.reply_count + content.favorite_count + content.quote_count
         text = content.text
         content_sentiment = self.analyzer.analyze_sentiment(text)
         return content_sentiment, intensity
 
-    def analyze_keywords(self, keywords, ignore_neutral=False, interval=None):
-        result = {}
+    def analyze_keywords(self, keywords: list[str], ignore_neutral: bool = False, interval: str = None) \
+            -> list[dict[str, str]]:
+        results = []
         start_time = None
         end_time = None
         recent_mode = False
@@ -46,7 +47,7 @@ class Core:
             positive_tweets = 0
 
             if not contents:
-                result[word] = 'NO_DATA_AVAILABLE'
+                word_sentiment = 'NO_DATA_AVAILABLE'
             else:
                 for content in contents:
                     content_sentiment, intensity = self.analyze_content_sentiment(content)
@@ -60,6 +61,10 @@ class Core:
                 if ignore_neutral:
                     neutral_tweets = 0
                 word_sentiment = utilities.get_sentiment_by_scores([negative_tweets, neutral_tweets, positive_tweets])
-                result[word] = word_sentiment
 
-        return result
+            results.append({
+                'keyword': word,
+                'sentiment': word_sentiment,
+            })
+
+        return results
