@@ -48,6 +48,7 @@ class Core:
 
             if not contents:
                 word_sentiment = 'NO_DATA_AVAILABLE'
+                intensity = 0
             else:
                 for content in contents:
                     content_sentiment, intensity = self.analyze_content_sentiment(content)
@@ -60,11 +61,13 @@ class Core:
 
                 if ignore_neutral:
                     neutral_tweets = 0
-                word_sentiment = utilities.get_sentiment_by_scores([negative_tweets, neutral_tweets, positive_tweets])
-
+                scores = [negative_tweets, neutral_tweets, positive_tweets]
+                word_sentiment = utilities.get_sentiment_by_scores(scores)
+                intensity = sum(scores)
             results.append({
                 'keyword': word,
                 'sentiment': word_sentiment,
+                'intensity': intensity
             })
 
         return results
